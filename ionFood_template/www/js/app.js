@@ -85,7 +85,7 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
 
   // view restaurant detail
   .state('detail', {
-    url: '/detail',
+    url: '/location/:placeId',
     templateUrl: 'templates/detail.html',
     controller: 'DetailController'
   })

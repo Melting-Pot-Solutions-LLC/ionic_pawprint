@@ -2,27 +2,44 @@ angular.module('starter.controllers', [])
 
 .controller('HomeController', function($scope) {})
 
-.controller('DetailController', function($scope, $ionicNavBarDelegate) {
+.controller('DetailController', function($scope, $ionicNavBarDelegate, $stateParams, Places) {
   // set the title
-  $scope.title = 'Detail';
+  //$scope.title = 'Detail';
   // show back button
   $ionicNavBarDelegate.showBackButton(true);
+
+  $scope.place = Places.get($stateParams.placeId);
 })
 
-.controller('Location', function($scope, $ionicLoading, $compile) {
+.controller('Location', function($scope, $ionicLoading, $compile, Places) {
   function initialize() {
-    // set up begining position
-    var myLatlng = new google.maps.LatLng(21.0227358,105.8194541);
-
+    var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
     // set option for map
     var mapOptions = {
       center: myLatlng,
-      zoom: 16,
+      zoom: 15,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     // init map
     var map = new google.maps.Map(document.getElementById("map"),
       mapOptions);
+
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        myLatlng = pos;
+        map.setCenter(pos);
+      }, function() {
+        handleLocationError(true, map.getCenter());
+      });
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, map.getCenter());
+    }
 
     // assign to stop
     $scope.map = map;
@@ -32,6 +49,8 @@ angular.module('starter.controllers', [])
     initialize();
   }
   //google.maps.event.addDomListener(window, 'load', initialize);
+
+  $scope.places = Places.all();
 })
 
 .controller('SearchController', function($scope ) {})
@@ -51,3 +70,17 @@ angular.module('starter.controllers', [])
 
 .controller('AccountController', function($scope ) {})
 .controller('AuthController', function($scope ) {});
+
+function handleLocationError(browserHasGeolocation, pos) {
+  var marker = new google.maps.Marker({
+    position: pos,
+    map: map,
+    title: browserHasGeolocation ?
+                        'Error: The Geolocation service failed.' :
+                        'Error: Your browser doesn\'t support geolocation.'
+  });
+}
+
+function displayAll($scope, Places) {
+  $scope.places = Places.all();
+}

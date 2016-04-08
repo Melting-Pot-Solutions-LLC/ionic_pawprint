@@ -1,17 +1,17 @@
-<ion-view view-title="{{title}}" hide-back-button="false" class="stable-bg">
+<ion-view view-title="{{place.name}}" hide-back-button="false" class="stable-bg">
   <ion-content>
     <div class="item row-no-padding light-bg">
-      <img class="full-image" src="img/r1.jpg">
+      <img class="full-image" src="">
       <span class="overlay-rating light">5.0</span>
       <div class="padding">
-        <h2>Sumo BBQ</h2>
+        <h2>{{place.name}}</h2>
         <p>
           <i class="ion-ios-location assertive"></i>
-          29 Thái Phiên Quận Hai Bà Trưng.
+          {{place.addr}}
         </p>
       </div>
     </div>
-    <div class="row static stable-bg">
+    <!--<div class="row static stable-bg">
       <div class="col">
         <span class="static-total">154</span>
         <span class="static-label">Likes</span>
@@ -46,6 +46,6 @@
         <i class="ion-chatbox"></i>
         Information detail
       </div>
-    </div>
+    </div>-->
   </ion-content>
 </ion-view>
