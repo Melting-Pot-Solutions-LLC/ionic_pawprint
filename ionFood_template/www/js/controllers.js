@@ -50,7 +50,19 @@ angular.module('starter.controllers', [])
   }
   //google.maps.event.addDomListener(window, 'load', initialize);
 
-  $scope.places = Places.all();
+  //$scope.places = Places.all();
+
+  $scope.displayAll = function() {
+    $scope.places = Places.all();
+    for (var i = 0; i < $scope.places.length; i++) {
+      var pos = {lat: $scope.places[i].lat, lng: $scope.places[i].lng};
+      var marker = new google.maps.Marker({
+        position: pos,
+        map: $scope.map,
+        title: $scope.places[i].name
+      });
+    }
+  }
 })
 
 .controller('SearchController', function($scope ) {})
@@ -79,8 +91,4 @@ function handleLocationError(browserHasGeolocation, pos) {
                         'Error: The Geolocation service failed.' :
                         'Error: Your browser doesn\'t support geolocation.'
   });
-}
-
-function displayAll($scope, Places) {
-  $scope.places = Places.all();
 }
