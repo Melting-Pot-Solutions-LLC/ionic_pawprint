@@ -1,12 +1,8 @@
 {
-  "name": "ionFood",
-  "app_id": "4c9f995a",
+  "name": "pawPrint",
+  "app_id": "cd0cc63c",
   "gulpStartupTasks": [
     "sass",
     "watch"
-  ],
-  "watchPatterns": [
-    "www/**/*",
-    "!www/lib/**/*"
   ]
 }
