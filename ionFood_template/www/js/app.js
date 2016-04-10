@@ -1,6 +1,7 @@
 /* Autor: Duy Thanh Dao */
 
-angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 'starter.services',
+  'ngCordova'])
 
 .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {

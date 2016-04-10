@@ -11,9 +11,46 @@ angular.module('starter.controllers', [])
   $scope.place = Places.get($stateParams.placeId);
 })
 
-.controller('Location', function($scope, $ionicLoading, $compile, Places) {
+.controller('Location', function($scope, $ionicLoading, $compile, $cordovaGeolocation, 
+  $ionicPlatform, Places) {
+
+  $ionicPlatform.ready(function() {    
+ 
+    $ionicLoading.show({
+        template: 'Acquiring location!'
+    });
+     
+    var posOptions = {
+        enableHighAccuracy: true,
+        timeout: 20000,
+        maximumAge: 0
+    };
+
+    $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
+        var lat = position.coords.latitude;
+        var lng = position.coords.longitude;
+         
+        var myLatlng = new google.maps.LatLng(lat, lng);
+         
+        var mapOptions = {
+            center: myLatlng,
+            zoom: 13,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };          
+         
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions);          
+         
+        $scope.map = map;   
+        $ionicLoading.hide();           
+         
+    }, function(err) {
+        $ionicLoading.hide();
+        console.log(err);
+    });
+  }) 
+
   function initialize() {
-    var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
+    var myLatlng = new google.maps.LatLng(34,-81);
     // set option for map
     var mapOptions = {
       center: myLatlng,
