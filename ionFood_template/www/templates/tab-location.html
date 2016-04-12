@@ -1,13 +1,16 @@
-<ion-view view-title="Location" > <!--ng-init="init()">-->
+<ion-view view-title="Location" ng-init="init()">
   <ion-content>
     <div id="map" data-tap-disabled="true"></div>
     <div style="width:100%">
-      <button type="button" ng-click="displayAll()" style="width:24%">
-        All</button>
-      <button type="button" ng-click="displayRB()" style="width:40%">
-        Restaraunts/Bars</button>
-      <button type="button" ng-click="displayVets()" style="width:33%">
-        Veterinarians</button>
+      <button class="button button-dark" ng-click="displayAll()" style="width:17%; min-height: 35px; height: 38px; font-size: 13px;">
+        All
+      </button>
+      <button class="button button-dark" ng-click="displayRB()" style="width:45%; min-height: 35px; height: 38px; font-size: 13px;">
+        Restaraunts/Bars
+      </button>
+      <button class="button button-dark" ng-click="displayVets()"  style="width:34%; min-height: 35px; height: 38px; font-size: 13px;">
+        Vets
+      </button>
     </div>
     <ion-list>
       <!--<ion-item class="item-remove-animate item-thumbnail-left item-icon-right" type="item-text-wrap" ui-sref="detail">
@@ -24,7 +27,7 @@
         <i class="icon ion-chevron-right icon-accessory"></i>
       </ion-item>-->
 
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="place in places" type="item-text-wrap" href="#/location/{{place.id}}">
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="place in places_to_show" type="item-text-wrap" href="#/location/{{place.id}}">
         <h2>{{place.name}}</h2>
         <p>{{place.addr}}</p>
         <i class="icon ion-chevron-right icon-accessory"></i>

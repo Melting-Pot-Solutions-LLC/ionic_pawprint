@@ -1,7 +1,6 @@
 /* Autor: Duy Thanh Dao */
 
-angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 'starter.services',
-  'ngCordova'])
+angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 'starter.services'])
 
 .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -102,14 +101,14 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
   .state('login', {
     url: '/login',
     templateUrl: 'templates/login.html',
-    controller: 'AuthController'
+    controller: 'LoginCtrl'
   })
 
   // register screen
   .state('register', {
     url: '/register',
     templateUrl: 'templates/register.html',
-    controller: 'AuthController'
+    controller: 'RegCtrl'
   });
 
   // default url state

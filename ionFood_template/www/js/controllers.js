@@ -1,6 +1,26 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['firebase'])
 
 .controller('HomeController', function($scope) {})
+
+.controller('LoginCtrl', function($scope, $firebaseAuth, $state) {
+
+  $scope.login_with_FB = function()
+  {
+    console.log("...logging in with FB...");
+    var authObject = $firebaseAuth(myDataRef_users);
+
+    authObject.$authWithOAuthPopup('facebook').then(function(authData)
+    {
+      console.log(authData);
+      console.log("...successfully logged in with FB...");
+      $state.go('tab.home');
+
+    }).catch(function(error) {
+      console.log("Error logging in with FB");
+    })
+  }
+
+})
 
 .controller('DetailController', function($scope, $ionicNavBarDelegate, $stateParams, Places) {
   // set the title
@@ -8,49 +28,12 @@ angular.module('starter.controllers', [])
   // show back button
   $ionicNavBarDelegate.showBackButton(true);
 
-  $scope.place = Places.get($stateParams.placeId);
+  //$scope.place = Places.get($stateParams.placeId);
 })
 
-.controller('Location', function($scope, $ionicLoading, $compile, $cordovaGeolocation, 
-  $ionicPlatform, Places) {
-
-  $ionicPlatform.ready(function() {    
- 
-    $ionicLoading.show({
-        template: 'Acquiring location!'
-    });
-     
-    var posOptions = {
-        enableHighAccuracy: true,
-        timeout: 20000,
-        maximumAge: 0
-    };
-
-    $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
-        var lat = position.coords.latitude;
-        var lng = position.coords.longitude;
-         
-        var myLatlng = new google.maps.LatLng(lat, lng);
-         
-        var mapOptions = {
-            center: myLatlng,
-            zoom: 13,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };          
-         
-        var map = new google.maps.Map(document.getElementById("map"), mapOptions);          
-         
-        $scope.map = map;   
-        $ionicLoading.hide();           
-         
-    }, function(err) {
-        $ionicLoading.hide();
-        console.log(err);
-    });
-  }) 
-
+.controller('Location', function($scope, $ionicLoading, $compile, Places) {
   function initialize() {
-    var myLatlng = new google.maps.LatLng(34,-81);
+    var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
     // set option for map
     var mapOptions = {
       center: myLatlng,
@@ -80,26 +63,117 @@ angular.module('starter.controllers', [])
 
     // assign to stop
     $scope.map = map;
+
   }
   // load map when the ui is loaded
-  $scope.init = function() {
+  $scope.init = function() 
+  {
     initialize();
+
+    //added by Steve
+    myDataRef.on("value", function(snapshot)
+    {
+      console.log("here is the DB" + snapshot.val());
+      $scope.places_in_database = snapshot.val();
+      $scope.places_to_show = [];
+      $scope.markers = [];
+      $scope.displayAll();
+    }, function (errorObject) 
+    {
+      console.log("The read failed: " + errorObject.code);
+    });
   }
   //google.maps.event.addDomListener(window, 'load', initialize);
 
   //$scope.places = Places.all();
 
-  $scope.displayAll = function() {
-    $scope.places = Places.all();
-    for (var i = 0; i < $scope.places.length; i++) {
-      var pos = {lat: $scope.places[i].lat, lng: $scope.places[i].lng};
+  $scope.deleteMarkers = function()
+  {
+    console.log("deleting markers...");
+    for (var i = 0; i < $scope.markers.length; i++)
+    {
+      $scope.markers[i].setMap(null);
+    }
+  }
+
+  $scope.displayAll = function()
+  {
+    $scope.deleteMarkers();
+    $scope.markers = [];
+    $scope.places_to_show = [];
+
+    for (var i = 0; i < $scope.places_in_database.length; i++) 
+    {
+      var pos = {lat: $scope.places_in_database[i].lat, lng: $scope.places_in_database[i].lng};
       var marker = new google.maps.Marker({
         position: pos,
         map: $scope.map,
-        title: $scope.places[i].name
+        title: $scope.places_in_database[i].name
       });
+
+      $scope.markers.push(marker);
+      $scope.places_to_show.push($scope.places_in_database[i]);
+
     }
+
+    //added by Steve
+    console.log("displaying all the markers");
+
   }
+
+  //added by Steve
+  $scope.displayRB = function()
+  {
+    $scope.deleteMarkers();
+    $scope.markers = [];
+    $scope.places_to_show = [];
+
+    for (var i = 0; i < $scope.places_in_database.length; i++) 
+    {
+      if($scope.places_in_database[i].type == "RB")
+      {
+        var pos = {lat: $scope.places_in_database[i].lat, lng: $scope.places_in_database[i].lng};
+        var marker = new google.maps.Marker({
+          position: pos,
+          map: $scope.map,
+          title: $scope.places_in_database[i].name
+        });
+
+        $scope.places_to_show.push($scope.places_in_database[i]);
+        $scope.markers.push(marker);
+      }
+    }
+
+
+    console.log("displaying only RB");
+  }
+
+  //added by Steve
+  $scope.displayVets = function()
+  {
+
+    $scope.deleteMarkers();
+    $scope.markers = [];
+    $scope.places_to_show = [];
+
+    for (var i = 0; i < $scope.places_in_database.length; i++) 
+    {
+      if($scope.places_in_database[i].type == "Vet")
+      {
+        var pos = {lat: $scope.places_in_database[i].lat, lng: $scope.places_in_database[i].lng};
+        var marker = new google.maps.Marker({
+          position: pos,
+          map: $scope.map,
+          title: $scope.places_in_database[i].name
+        });
+
+        $scope.places_to_show.push($scope.places_in_database[i]);
+        $scope.markers.push(marker);
+      }
+    }
+    console.log("displaying only vets");
+  }
+
 })
 
 .controller('SearchController', function($scope ) {})
