@@ -37,7 +37,7 @@ angular.module('starter.controllers', ['firebase'])
     // set option for map
     var mapOptions = {
       center: myLatlng,
-      zoom: 13,
+      zoom: 11,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     // init map
