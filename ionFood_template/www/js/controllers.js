@@ -2,6 +2,16 @@ angular.module('starter.controllers', ['firebase'])
 
 .controller('HomeController', function($scope) {})
 
+
+.controller('SideMenuController', function($scope, $rootScope) {
+  $scope.open_menu = function()
+  {
+    
+  }
+
+})
+
+
 .controller('AccountCtrl', function($scope) {
 
 
@@ -21,6 +31,7 @@ angular.module('starter.controllers', ['firebase'])
       console.log("...successfully logged in with FB...");
       myDataRef_users_facebook.push(authData);
       $rootScope.user_name = authData.facebook.displayName;
+      $rootScope.uid  = authData.facebook.uid;
       console.log("user's name is ", $rootScope.user_name);
       $state.go('tab.home');
 
