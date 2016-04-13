@@ -2,22 +2,46 @@ angular.module('starter.controllers', ['firebase'])
 
 .controller('HomeController', function($scope) {})
 
-.controller('LoginCtrl', function($scope, $firebaseAuth, $state) {
+.controller('AccountCtrl', function($scope) {
+
+
+  console.log("in the main menu");
+})
+
+.controller('LoginCtrl', function($scope, $firebaseAuth, $state, $rootScope) {
 
   $scope.login_with_FB = function()
   {
     console.log("...logging in with FB...");
-    var authObject = $firebaseAuth(myDataRef_users);
+    var authObject = $firebaseAuth(myDataRef_users_facebook);
 
     authObject.$authWithOAuthPopup('facebook').then(function(authData)
     {
       console.log(authData);
       console.log("...successfully logged in with FB...");
+      myDataRef_users_facebook.push(authData);
+      $rootScope.user_name = authData.facebook.displayName;
+      console.log("user's name is ", $rootScope.user_name);
       $state.go('tab.home');
 
     }).catch(function(error) {
       console.log("Error logging in with FB");
     })
+  }
+
+  $scope.login_with_gmail = function()
+  {
+    console.log("...logging in with GMail...");
+    myDataRef_user_gmail.authWithOAuthPopup("google", function(error, authData) {
+      if (error) {
+        console.log("Error logging in with GMail");
+      } else {
+        console.log("...successfully logged in with GMail...", authData);
+        myDataRef_user_gmail.push(authData);
+        $state.go('tab.home');
+      }
+    });
+
   }
 
 })
