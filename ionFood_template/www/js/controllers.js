@@ -209,6 +209,31 @@ angular.module('starter.controllers', ['firebase'])
     console.log("displaying only vets");
   }
 
+  $scope.displayParks = function()
+  {
+
+    $scope.deleteMarkers();
+    $scope.markers = [];
+    $scope.places_to_show = [];
+
+    for (var i = 0; i < $scope.places_in_database.length; i++) 
+    {
+      if($scope.places_in_database[i].type == "Park")
+      {
+        var pos = {lat: $scope.places_in_database[i].lat, lng: $scope.places_in_database[i].lng};
+        var marker = new google.maps.Marker({
+          position: pos,
+          map: $scope.map,
+          title: $scope.places_in_database[i].name
+        });
+
+        $scope.places_to_show.push($scope.places_in_database[i]);
+        $scope.markers.push(marker);
+      }
+    }
+    console.log("displaying only parks");
+  }
+
 })
 
 .controller('SearchController', function($scope ) {})
