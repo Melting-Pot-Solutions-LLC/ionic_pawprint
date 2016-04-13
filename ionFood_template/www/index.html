@@ -53,7 +53,7 @@
       <!-- Center content -->
       <ion-side-menu-content>
         <ion-nav-bar class="bar-assertive">
-          <ion-nav-back-button class=" button button-clear">
+          <ion-nav-back-button class="button-clear" side="right">
             Back
           </ion-nav-back-button>
 
@@ -61,10 +61,10 @@
             <button class="button button-icon button-clear ion-navicon" menu-toggle="left" ng-click="open_menu()">
             </button>
           </ion-nav-buttons>
-          <ion-nav-buttons side="right">
+          <!--<ion-nav-buttons side="right">
             <button class="button button-icon button-clear ion-android-more-vertical" menu-toggle="right">
             </button>
-          </ion-nav-buttons>
+          </ion-nav-buttons>-->
         </ion-nav-bar>
 
         <ion-nav-view animation="slide-left-right"></ion-nav-view>
@@ -82,12 +82,16 @@
           </ion-header-bar>
 
           <div class="text-center">
-            <a ui-sref="account">
+            <a><!-- ui-sref="account">-->
               <img class="profile-picture" menu-close="" src="img/avatar.jpg">
               <h4 class="stable">{{user_name}}</h4>
             </a>
             <div class="list text-left dark-list">
-              <div class="item item-icon-left">
+              <div class="item item-icon-left" menu-close="" ui-sref="tab.home">
+                <i class="icon ion-ios-home"></i>
+                Home
+              </div>
+              <div class="item item-icon-left" menu-close="">
                 <i class="icon ion-android-chat"></i>
                 Review
               </div>
@@ -95,7 +99,7 @@
                 <i class="icon ion-ios-photos"></i>
                 Photo
               </div>-->
-              <div class="item item-icon-left">
+              <div class="item item-icon-left" menu-close="">
                 <i class="icon ion-android-people"></i>
                 Friends
               </div>
@@ -103,11 +107,11 @@
                 <i class="icon ion-android-folder-open"></i>
                 Collections
               </div>-->
-              <div class="item item-icon-left">
+              <div class="item item-icon-left" menu-close="">
                 <i class="icon ion-heart"></i>
                 Liked
               </div>
-              <div class="item item-icon-left">
+              <div class="item item-icon-left" menu-close="">
                 <i class="icon ion-ios-location"></i>
                 Check-in
               </div>
@@ -115,7 +119,7 @@
                 <i class="icon ion-paper-airplane"></i>
                 Wanted
               </div>-->
-              <div class="item item-icon-left">
+              <div class="item item-icon-left" menu-close="">
                 <i class="icon ion-ios-gear"></i>
                 Settings
               </div>
