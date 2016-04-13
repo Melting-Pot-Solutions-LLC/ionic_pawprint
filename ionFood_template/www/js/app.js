@@ -46,6 +46,36 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
       templateUrl: 'templates/help.html'
     //}
   })
+  .state('reviews', {
+    url: '/reviews',
+    //views: {
+      templateUrl: 'templates/reviews.html'
+    //}
+  })
+  .state('friends', {
+    url: '/friends',
+    //views: {
+      templateUrl: 'templates/friends.html'
+    //}
+  })
+  .state('liked', {
+    url: '/liked',
+    //views: {
+      templateUrl: 'templates/liked.html'
+    //}
+  })
+  .state('checkIn', {
+    url: '/checkIn',
+    //views: {
+      templateUrl: 'templates/checkIn.html'
+    //}
+  })
+  .state('settings', {
+    url: '/settings',
+    //views: {
+      templateUrl: 'templates/settings.html'
+    //}
+  })
   .state('tab.home', {
     url: '/home',
     views: {
