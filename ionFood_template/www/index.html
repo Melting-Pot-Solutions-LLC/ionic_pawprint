@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta name="google-signin-client_id" content="AIzaSyB16sGmIekuGIvYOfNoW9T44377IU2d2Es.apps.googleusercontent.com">
     <title></title>
 
 
@@ -19,6 +20,9 @@
 
     <!-- google maps javascript -->
     <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyB16sGmIekuGIvYOfNoW9T44377IU2d2Es&amp;sensor=true"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
@@ -83,7 +87,7 @@
 
           <div class="text-center">
             <a><!-- ui-sref="account">-->
-              <img class="profile-picture" menu-close="" src="img/avatar.jpg">
+              <img class="profile-picture" menu-close="" ng-src="{{profile_picture}}">
               <h4 class="stable">{{user_name}}</h4>
             </a>
             <div class="list text-left dark-list">

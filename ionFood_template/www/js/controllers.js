@@ -32,6 +32,7 @@ angular.module('starter.controllers', ['firebase'])
       myDataRef_users_facebook.push(authData);
       $rootScope.user_name = authData.facebook.displayName;
       $rootScope.uid  = authData.facebook.uid;
+      $rootScope.profile_picture = authData.facebook.profileImageURL;
       console.log("user's name is ", $rootScope.user_name);
       $state.go('tab.home');
 
@@ -51,6 +52,7 @@ angular.module('starter.controllers', ['firebase'])
         myDataRef_user_gmail.push(authData);
         $rootScope.user_name = authData.google.displayName;
         $rootScope.uid  = authData.google.uid;
+        $rootScope.profile_picture = authData.google.profileImageURL;
         console.log("user's name is ", $rootScope.user_name);
         $state.go('tab.home');
       }
