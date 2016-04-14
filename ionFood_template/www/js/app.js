@@ -88,7 +88,7 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
 
   // map view mode
   .state('tab.location', {
-    url: '/location',
+    url: '/map',
     views: {
       'tab-location': {
         templateUrl: 'templates/tab-location.html',
