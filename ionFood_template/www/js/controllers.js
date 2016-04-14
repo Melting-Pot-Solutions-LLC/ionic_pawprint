@@ -242,7 +242,43 @@ angular.module('starter.controllers', ['firebase'])
 
 })
 
-.controller('SearchController', function($scope ) {})
+.controller('SearchController', function($scope, $state) {
+
+  $scope.init = function()
+  {
+    console.log("opened search view");
+    myDataRef.on("value", function(snapshot)
+    {
+      console.log("here is the DB" + snapshot.val());
+      $scope.places_in_database = snapshot.val();
+      $scope.places_to_show = snapshot.val();
+    }, function (errorObject) 
+    {
+      console.log("The read failed: " + errorObject.code);
+    });
+  }
+
+  $("#searchbar").keyup
+  (
+    function()
+    {
+      console.log("keyup");
+      console.log("Text in the search bar is '", this.value, "'");
+      $scope.places_to_show = [];
+      for (var i = 0; i < $scope.places_in_database.length; i++) 
+      {
+        if($scope.places_in_database[i].name.toLowerCase().indexOf(this.value.toLowerCase()) != -1)
+        {
+          console.log("found");
+          $scope.places_to_show.push($scope.places_in_database[i]);
+        }
+      }
+      $state.go($state.current, {}, {reload: true});
+      
+    }
+  );
+
+})
 
 .controller('SearchFilterController', function($scope, $state, $ionicHistory) {
   // apply filter
@@ -255,6 +291,8 @@ angular.module('starter.controllers', ['firebase'])
     // comeback to search screen
     $state.go('tab.search');
   }
+
+  
 })
 
 .controller('AccountController', function($scope ) {})
