@@ -49,6 +49,9 @@ angular.module('starter.controllers', ['firebase'])
       } else {
         console.log("...successfully logged in with GMail...", authData);
         myDataRef_user_gmail.push(authData);
+        $rootScope.user_name = authData.google.displayName;
+        $rootScope.uid  = authData.google.uid;
+        console.log("user's name is ", $rootScope.user_name);
         $state.go('tab.home');
       }
     });
@@ -139,6 +142,7 @@ angular.module('starter.controllers', ['firebase'])
 
     for (var i = 0; i < $scope.places_in_database.length; i++) 
     {
+      console.log(i);
       var pos = {lat: $scope.places_in_database[i].lat, lng: $scope.places_in_database[i].lng};
       var marker = new google.maps.Marker({
         position: pos,
