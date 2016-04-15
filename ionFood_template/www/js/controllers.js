@@ -3,45 +3,8 @@ angular.module('starter.controllers', ['firebase'])
 .controller('HomeController', function($scope) {})
 
 .controller('RegCtrl', function($scope, $state, $rootScope) {
-  console.log("opened add a place view");
-
-
-  $scope.choose_type = function(type)
-  {
-    switch(type)
-    {
-      case 'social':
-        console.log("swtich to social");
-        $("#social").addClass("active");
-        $("#vet").removeClass("active");
-        $("#park").removeClass("active");
-        break;
-
-      case 'vet':
-        console.log("swtich to vet");
-        $("#social").removeClass("active");
-        $("#vet").addClass("active");
-        $("#park").removeClass("active");
-        break;
-
-      case 'park':
-        console.log("swtich to park");
-        $("#social").removeClass("active");
-        $("#vet").removeClass("active");
-        $("#park").addClass("active");
-        break;
-
-      default:
-        console.log("unknown");
-        break;
-    }
-  }
-
-
-
+  
 })
-
-
 
 .controller('SideMenuController', function($scope, $rootScope) {
   $scope.open_menu = function()
@@ -50,7 +13,6 @@ angular.module('starter.controllers', ['firebase'])
   }
 
 })
-
 
 .controller('AccountCtrl', function($scope) {
 
@@ -395,6 +357,77 @@ angular.module('starter.controllers', ['firebase'])
     });
     // comeback to search screen
     $state.go('tab.search');
+  }
+})
+
+.controller('MeetUpController', function($scope ) {
+
+})
+
+.controller('AddPlaceController', function($scope ) {
+  console.log("opened add a place view");
+
+  $scope.choose_type = function(type)
+  {
+    switch(type)
+    {
+      case 'social':
+        console.log("swtich to social");
+        $("#social").addClass("active");
+        $("#vet").removeClass("active");
+        $("#park").removeClass("active");
+        break;
+
+      case 'vet':
+        console.log("swtich to vet");
+        $("#social").removeClass("active");
+        $("#vet").addClass("active");
+        $("#park").removeClass("active");
+        break;
+
+      case 'park':
+        console.log("swtich to park");
+        $("#social").removeClass("active");
+        $("#vet").removeClass("active");
+        $("#park").addClass("active");
+        break;
+
+      default:
+        console.log("unknown");
+        break;
+    }
+  }
+
+  $scope.initialize = function() {
+    var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
+    // set option for map
+    var mapOptions = {
+      center: myLatlng,
+      zoom: 11,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    // init map
+    var map = new google.maps.Map(document.getElementById("map2"),
+      mapOptions);
+
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        myLatlng = pos;
+        map.setCenter(pos);
+      }, function() {
+        handleLocationError(true, map.getCenter());
+      });
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, map.getCenter());
+    }
+    // assign to stop
+    $scope.map = map2;
   }
 })
 

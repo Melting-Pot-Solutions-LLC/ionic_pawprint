@@ -43,7 +43,8 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
   .state('meetUp', {
     url: '/meetUp',
     //views: {
-      templateUrl: 'templates/meetUp.html'
+      templateUrl: 'templates/meetUp.html',
+      controller: 'MeetUpController'
     //}
   })
   .state('about', {
@@ -58,14 +59,14 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
       templateUrl: 'templates/history.html'
     //}
   })
-  .state('tab.addaplace', {
+  .state('addaplace', {
     url: '/addaplace',
-    views: {
-      'addaplace': {
+    //views: {
+    //  'addaplace': {
         templateUrl: 'templates/add_a_place.html',
         controller: 'AddPlaceController'
-      }
-    }
+    //  }
+    //}
   })
   .state('friends', {
     url: '/friends',
@@ -158,8 +159,12 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
   // register screen
   .state('register', {
     url: '/register',
-    templateUrl: 'templates/add_a_place.html',
-    controller: 'RegCtrl'
+    //views: {
+      //'register': {
+        templateUrl: 'templates/register.html',
+        controller: 'RegCtrl'
+      //}
+    //}
   });
 
   // default url state
