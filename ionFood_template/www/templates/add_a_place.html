@@ -1,7 +1,7 @@
-<ion-view view-title="Add a place">
+<ion-view view-title="Add a place" ng-init="initialize()">
   <ion-content>
     <div class="padding">
-      
+      <div id="map2" data-tap-disabled="true"></div>
       <h4>Place information</h4>
       <div class="list list-inset">
         <label class="item item-input">
@@ -11,6 +11,8 @@
           <input type="text" placeholder="Location">
         </label>
       </div>
+      <h4>Show it on the map</h4>
+      
       <h4>Type</h4>
       <div class="button-bar">
         <!-- <a class="button button-small ">Nearby</a> -->
