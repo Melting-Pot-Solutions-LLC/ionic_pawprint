@@ -40,6 +40,12 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
     abstract: true,
     templateUrl: 'templates/tabs.html'
   })
+  .state('meetUp', {
+    url: '/meetUp',
+    //views: {
+      templateUrl: 'templates/meetUp.html'
+    //}
+  })
   .state('about', {
     url: '/about',
     //views: {

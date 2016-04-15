@@ -75,15 +75,6 @@ angular.module('starter.controllers', ['firebase'])
 })
 
 .controller('Location', function($scope, $ionicLoading, $compile, Places) {
-  var mapIcon = {
-    path: '',
-    fillColor: '',
-    fillOpacity: 0.8,
-    scale: 1,
-    strokeColor: '',
-    strokeWeight: 14
-  };
-
   /**
    * The CenterControl adds a control to the map that recenters the map on
    * the user.
@@ -116,7 +107,7 @@ angular.module('starter.controllers', ['firebase'])
     controlText.innerHTML = 'Center Map';
     controlUI.appendChild(controlText);
 
-    // Setup the click event listeners: simply set the map to Chicago.
+    // Setup the click event listeners: simply set the map to the user.
     controlUI.addEventListener('click', function() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
@@ -134,7 +125,6 @@ angular.module('starter.controllers', ['firebase'])
         handleLocationError(false, map.getCenter());
       }
     });
-
   }
 
   function initialize() {
@@ -175,7 +165,6 @@ angular.module('starter.controllers', ['firebase'])
 
     // assign to stop
     $scope.map = map;
-
   }
   // load map when the ui is loaded
   $scope.init = function() 
@@ -195,9 +184,6 @@ angular.module('starter.controllers', ['firebase'])
       console.log("The read failed: " + errorObject.code);
     });
   }
-  //google.maps.event.addDomListener(window, 'load', initialize);
-
-  //$scope.places = Places.all();
 
   $scope.deleteMarkers = function()
   {
@@ -243,7 +229,6 @@ angular.module('starter.controllers', ['firebase'])
 
     //added by Steve
     console.log("displaying all the markers");
-
   }
 
   //added by Steve
@@ -269,15 +254,12 @@ angular.module('starter.controllers', ['firebase'])
         $scope.markers.push(marker);
       }
     }
-
-
     console.log("displaying only RB");
   }
 
   //added by Steve
   $scope.displayVets = function()
   {
-
     $scope.deleteMarkers();
     $scope.markers = [];
     $scope.places_to_show = [];
@@ -326,11 +308,9 @@ angular.module('starter.controllers', ['firebase'])
     }
     console.log("displaying only parks");
   }
-
 })
 
 .controller('SearchController', function($scope, $state) {
-
   $scope.init = function()
   {
     console.log("opened search view");
@@ -366,7 +346,6 @@ angular.module('starter.controllers', ['firebase'])
       
     }
   );
-
 })
 
 .controller('SearchFilterController', function($scope, $state, $ionicHistory) {
@@ -380,8 +359,6 @@ angular.module('starter.controllers', ['firebase'])
     // comeback to search screen
     $state.go('tab.search');
   }
-
-  
 })
 
 .controller('AccountController', function($scope ) {})
