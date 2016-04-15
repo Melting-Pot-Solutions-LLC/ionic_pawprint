@@ -46,10 +46,16 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
       templateUrl: 'templates/help.html'
     //}
   })
-  .state('reviews', {
-    url: '/reviews',
+  .state('history', {
+    url: '/history',
     //views: {
-      templateUrl: 'templates/reviews.html'
+      templateUrl: 'templates/history.html'
+    //}
+  })
+  .state('add_a_place', {
+    url: '/addplace',
+    //views: {
+      templateUrl: 'templates/add_a_place.html'
     //}
   })
   .state('friends', {

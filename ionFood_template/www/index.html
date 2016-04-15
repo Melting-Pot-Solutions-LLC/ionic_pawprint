@@ -65,6 +65,10 @@
             <button class="button button-icon button-clear ion-navicon" menu-toggle="left" ng-click="open_menu()">
             </button>
           </ion-nav-buttons>
+          <ion-nav-buttons side="right">
+            <button class="button button-icon button-clear ion-navicon" menu-toggle="left" ng-click="open_menu()">
+            </button>
+          </ion-nav-buttons>
           <!--<ion-nav-buttons side="right">
             <button class="button button-icon button-clear ion-android-more-vertical" menu-toggle="right">
             </button>
@@ -95,9 +99,13 @@
                 <i class="icon ion-ios-home"></i>
                 Home
               </div>
-              <div class="item item-icon-left" menu-close="" ui-sref="reviews">
-                <i class="icon ion-android-chat"></i>
-                Reviews
+              <div class="item item-icon-left" menu-close="" ui-sref="add_a_place">
+                <i class="icon ion-plus-circled"></i>
+                Add Place
+              </div>
+              <div class="item item-icon-left" menu-close="" ui-sref="history">
+                <i class="icon ion-calendar"></i>
+                History
               </div>
               <!--<div class="item item-icon-left">
                 <i class="icon ion-ios-photos"></i>
@@ -111,10 +119,10 @@
                 <i class="icon ion-android-folder-open"></i>
                 Collections
               </div>-->
-              <div class="item item-icon-left" menu-close="" ui-sref="liked">
+              <!--<div class="item item-icon-left" menu-close="" ui-sref="liked">
                 <i class="icon ion-heart"></i>
                 Liked
-              </div>
+              </div>-->
               <div class="item item-icon-left" menu-close="" ui-sref="checkIn">
                 <i class="icon ion-ios-location"></i>
                 Check-in
