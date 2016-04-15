@@ -410,8 +410,18 @@ angular.module('starter.controllers', ['firebase'])
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     // init map
-    var map = new google.maps.Map(document.getElementById("map2"),
+    var map = new google.maps.Map(document.getElementById("map"),
       mapOptions);
+
+
+    var geocoder = new google.maps.Geocoder();
+    document.getElementById('addaplace_button').addEventListener('click', function() 
+    {
+          geocodeAddress(geocoder, map);
+          console.log("clicked");
+    });
+
+
 
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
@@ -432,6 +442,24 @@ angular.module('starter.controllers', ['firebase'])
     // assign to stop
     $scope.map = map;
   }
+
+  function geocodeAddress(geocoder, resultsMap) 
+  {
+    var address = document.getElementById('location').value;
+    geocoder.geocode({'address': address}, function(results, status) {
+      if (status === google.maps.GeocoderStatus.OK) {
+        resultsMap.setCenter(results[0].geometry.location);
+        var marker = new google.maps.Marker({
+          map: resultsMap,
+          position: results[0].geometry.location
+        });
+      } else {
+        alert('Geocode was not successful for the following reason: ' + status);
+      }
+    });
+  }
+
+
 })
 
 .controller('AccountController', function($scope ) {})
