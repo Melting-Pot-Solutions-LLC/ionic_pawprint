@@ -2,8 +2,45 @@ angular.module('starter.controllers', ['firebase'])
 
 .controller('HomeController', function($scope) {})
 
+.controller('RegCtrl', function($scope, $state, $rootScope) {
+  console.log("opened add a place view");
 
-.controller('HomeController', function($scope) {})
+
+  $scope.choose_type = function(type)
+  {
+    switch(type)
+    {
+      case 'social':
+        console.log("swtich to social");
+        $("#social").addClass("active");
+        $("#vet").removeClass("active");
+        $("#park").removeClass("active");
+        break;
+
+      case 'vet':
+        console.log("swtich to vet");
+        $("#social").removeClass("active");
+        $("#vet").addClass("active");
+        $("#park").removeClass("active");
+        break;
+
+      case 'park':
+        console.log("swtich to park");
+        $("#social").removeClass("active");
+        $("#vet").removeClass("active");
+        $("#park").addClass("active");
+        break;
+
+      default:
+        console.log("unknown");
+        break;
+    }
+  }
+
+
+
+})
+
 
 
 .controller('SideMenuController', function($scope, $rootScope) {

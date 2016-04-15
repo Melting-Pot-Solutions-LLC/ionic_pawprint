@@ -1,33 +1,25 @@
 <ion-view view-title="Add a place">
   <ion-content>
-    <p class="text-center">Add a place</p>
-
     <div class="padding">
       
-      <h4>Filter by</h4>
-      <div class="list">
-        <div class="item item-icon-right">
-          Area
-          <i class="icon ion-chevron-right icon-accessory"></i>
-        </div>
-        <div class="item item-icon-right">
-          Categories
-          <i class="icon ion-chevron-right icon-accessory"></i>
-        </div>
-        <div class="item item-icon-right">
-          Service
-          <i class="icon ion-chevron-right icon-accessory"></i>
-        </div>
+      <h4>Place information</h4>
+      <div class="list list-inset">
+        <label class="item item-input">
+          <input type="text" placeholder="Name">
+        </label>
+        <label class="item item-input">
+          <input type="text" placeholder="Location">
+        </label>
       </div>
       <h4>Type</h4>
       <div class="button-bar">
         <!-- <a class="button button-small ">Nearby</a> -->
-        <a class="button button-small inactive" ng-click="choose_type('social')">Social</a>
-        <a class="button button-small active" ng-click="choose_type('vet')">Vet</a>
-        <a class="button button-small" ng-click="choose_type'park')">Park</a>
+        <a id="social" class="button button-small" ng-click="choose_type('social')">Social</a>
+        <a id="vet" class="button button-small active" ng-click="choose_type('vet')">Vet</a>
+        <a id="park" class="button button-small" ng-click="choose_type('park')">Park</a>
       </div>
-      <button class="button button-block button-balanced" ng-click="applyFilter()">
-        Submit
+      <button class="button button-block button-positive" ng-click="applyFilter()" style="position: fixed; bottom: 40px; width: 95%">
+        Add a place 
       </button>
     </div>
 
