@@ -3,6 +3,9 @@ angular.module('starter.controllers', ['firebase'])
 .controller('HomeController', function($scope) {})
 
 
+.controller('HomeController', function($scope) {})
+
+
 .controller('SideMenuController', function($scope, $rootScope) {
   $scope.open_menu = function()
   {
