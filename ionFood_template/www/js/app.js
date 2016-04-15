@@ -141,7 +141,12 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
     templateUrl: 'templates/detail.html',
     controller: 'DetailController'
   })
-
+  // view meet up detail
+  .state('meetUpDetail', {
+    url: '/meetUp/:meetUpId',
+    templateUrl: 'templates/meetUpDetail.html',
+    controller: 'MeetUpDetailController'
+  })
   // view user account
   .state('account', {
     url: '/account',

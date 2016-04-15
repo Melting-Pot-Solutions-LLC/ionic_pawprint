@@ -65,8 +65,6 @@ angular.module('starter.controllers', ['firebase'])
 })
 
 .controller('DetailController', function($scope, $ionicNavBarDelegate, $stateParams, Places) {
-  // set the title
-  //$scope.title = 'Detail';
   // show back button
   $ionicNavBarDelegate.showBackButton(true);
 
@@ -360,8 +358,13 @@ angular.module('starter.controllers', ['firebase'])
   }
 })
 
-.controller('MeetUpController', function($scope ) {
+.controller('MeetUpController', function($scope, MeetUps) {
+  $scope.meetUps_to_show = MeetUps.all();
+})
 
+.controller('MeetUpDetailController', function($scope, $ionicNavBarDelegate, $stateParams, MeetUps) {
+  $ionicNavBarDelegate.showBackButton(true);
+  $scope.meetUp = MeetUps.get($stateParams.meetUpId);
 })
 
 .controller('AddPlaceController', function($scope ) {
@@ -427,7 +430,7 @@ angular.module('starter.controllers', ['firebase'])
       handleLocationError(false, map.getCenter());
     }
     // assign to stop
-    $scope.map = map2;
+    $scope.map = map;
   }
 })
 
