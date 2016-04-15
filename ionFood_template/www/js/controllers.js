@@ -213,7 +213,6 @@ angular.module('starter.controllers', ['firebase'])
 
     for (var i = 0; i < $scope.places_in_database.length; i++) 
     {
-      console.log(i);
       var pos = {lat: $scope.places_in_database[i].lat, lng: $scope.places_in_database[i].lng};
       var marker = new google.maps.Marker({
         position: pos,
@@ -332,6 +331,8 @@ angular.module('starter.controllers', ['firebase'])
   $scope.init = function()
   {
     console.log("opened search view");
+
+    document.getElementById('searchbar').select();
     myDataRef.on("value", function(snapshot)
     {
       console.log("here is the DB" + snapshot.val());
