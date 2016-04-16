@@ -1,15 +1,20 @@
-<ion-view view-title="{{meetUp.name}}" hide-back-button="false" class="stable-bg" ng-init="initialize()">
+<ion-view view-title="Meetup Details" hide-back-button="false" class="stable-bg" ng-init="initialize()">
   <ion-content>
+  <div id="map4" data-tap-disabled="true" style="height: 200px; width: 100%;"></div>
     <div class="item row-no-padding light-bg">
-      <img class="full-image" src="">
+       <span class="overlay-rating light">5.0</span>
       <div class="padding">
-        <h2>{{meetUp.name}}</h2>
+        <h2>{{place.name}}</h2>
         <p>
           <i class="ion-ios-location assertive"></i>
-          {{meetUp.address}}
+          {{place.addr}}
         </p>
       </div>
-      <div id="map4" data-tap-disabled="true" style="height: 200px; width: 100%;"></div>
+      </div>
+      <img class="full-image" src="img/meetup.JPG" style="width:100%, height: auto;">
     </div>
   </ion-content>
 </ion-view>
+
+
+      

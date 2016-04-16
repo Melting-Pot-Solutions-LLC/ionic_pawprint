@@ -2,20 +2,9 @@ angular.module('starter.services', [])
 
 .factory('MeetUps', function () {
 	//code to retreive array of meetUps
-	var meetUps = [{
-		id: 0,
-		name: 'Meet at Jake\'s',
-		location: 'Jake\'s',
-		address: '',
-		dateTime: 'April 20, 2016'
-	}, {
-		id: 1,
-		name: 'Meet at Jake\'s',
-		location: 'Jake\'s',
-		address: '',
-		dateTime: 'April 20, 2016'
-	}];
-	return {
+
+	return {/*
+
 		all: function() {
 			return meetUps;
 		},
@@ -36,5 +25,6 @@ angular.module('starter.services', [])
     			dateTime: dateTimeN
     		})
     	}
+    	*/
 	};
 });

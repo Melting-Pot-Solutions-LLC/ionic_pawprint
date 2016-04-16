@@ -601,15 +601,89 @@ angular.module('starter.controllers', ['firebase'])
   }
 })
 
-.controller('MeetUpController', function($scope, MeetUps) {
-  $scope.meetUps_to_show = MeetUps.all();
+
+
+
+
+
+.controller('MeetUpController', function($scope) {
+  
+  $scope.initialize = function()
+  {
+    
+
+    var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
+    // set option for map
+    var mapOptions = {
+      center: myLatlng,
+      zoom: 9,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    // init map
+    var map7 = new google.maps.Map(document.getElementById("map7"),
+      mapOptions);
+
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        myLatlng = pos;
+        map7.setCenter(pos);
+      }, function() {
+        handleLocationError(true, map7.getCenter());
+      });
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, map7.getCenter());
+    }
+
+    // assign to stop
+    $scope.map7 = map7;
+
+
+    $scope.markers = [];
+
+    myDataRef_meetups.on("value", function(snapshot)
+    {
+      console.log("here is the DB" + snapshot.val());
+      $scope.meetUps_to_show = snapshot.val();
+      
+      for (var i = 0; i < $scope.meetUps_to_show.length; i++) 
+      {
+        console.log(i);
+        var pos = {lat: $scope.meetUps_to_show[i].lat, lng: $scope.meetUps_to_show[i].lng};
+        var marker = new google.maps.Marker({
+          position: pos,
+          map: $scope.map7,
+          title: $scope.meetUps_to_show[i].name
+        });
+
+        $scope.markers.push(marker);
+      }
+      
+
+    //added by Steve
+    console.log("displaying all the markers");
+    }, function (errorObject) 
+    {
+      console.log("The read failed: " + errorObject.code);
+    });
+
+    
+
+
+  }
+
 })
 
 .controller('MeetUpDetailController', function($scope, $ionicNavBarDelegate, $stateParams, MeetUps) {
   $scope.initialize = function() {
     $ionicNavBarDelegate.showBackButton(true);
-    $scope.meetUp = MeetUps.get($stateParams.meetUpId);
-    var meetUp = MeetUps.get($stateParams.meetUpId);
+    //$scope.meetUp = MeetUps.get($stateParams.meetUpId);
+    //var meetUp = MeetUps.get($stateParams.meetUpId);
 
     var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
     // set option for map
@@ -622,6 +696,7 @@ angular.module('starter.controllers', ['firebase'])
     var map = new google.maps.Map(document.getElementById("map4"),
       mapOptions);
 
+    /*
     var pos = {
       lat: meetUp.lat,
       lng: meetUp.lng
@@ -639,6 +714,7 @@ angular.module('starter.controllers', ['firebase'])
     });
     infowindow.open(map,marker);
     console.log("opening a marker");
+    */
 
     // assign to stop
     $scope.map4 = map;
