@@ -66,7 +66,43 @@ angular.module('starter.controllers', ['firebase'])
   // show back button
   $ionicNavBarDelegate.showBackButton(true);
 
-  //$scope.place = Places.get($stateParams.placeId);
+  //Get specific place object from database here
+
+  $scope.initialize = function() {
+    var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
+    // set option for map
+    var mapOptions = {
+      center: myLatlng,
+      zoom: 11,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    // init map
+    var map = new google.maps.Map(document.getElementById("map3"),
+      mapOptions);
+
+    var pos = {
+      lat: place.lat,
+      lng: place.lng
+    };
+    myLatlng = pos;
+    map.setCenter(pos);
+
+    //add a marker at location
+    var marker = new google.maps.Marker({
+      position: pos,
+      map: map,
+    });
+    var infowindow = new google.maps.InfoWindow({
+      content: place.name
+    });
+    infowindow.open(map,marker);
+    console.log("opening a marker");
+
+    // assign to stop
+    $scope.map3 = map;
+  }
+
+  //Get list of reviews available for specific location
 })
 
 .controller('Location', function($scope, $ionicLoading, $compile) {
