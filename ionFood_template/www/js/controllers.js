@@ -15,8 +15,6 @@ angular.module('starter.controllers', ['firebase'])
 })
 
 .controller('AccountCtrl', function($scope) {
-
-
   console.log("in the main menu");
 })
 
@@ -64,14 +62,14 @@ angular.module('starter.controllers', ['firebase'])
 
 })
 
-.controller('DetailController', function($scope, $ionicNavBarDelegate, $stateParams, Places) {
+.controller('DetailController', function($scope, $ionicNavBarDelegate, $stateParams) {
   // show back button
   $ionicNavBarDelegate.showBackButton(true);
 
   //$scope.place = Places.get($stateParams.placeId);
 })
 
-.controller('Location', function($scope, $ionicLoading, $compile, Places) {
+.controller('Location', function($scope, $ionicLoading, $compile) {
   /**
    * The CenterControl adds a control to the map that recenters the map on
    * the user.
@@ -399,38 +397,6 @@ angular.module('starter.controllers', ['firebase'])
         console.log("unknown");
         break;
     }
-  }
-
-  $scope.initialize = function() {
-    var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
-    // set option for map
-    var mapOptions = {
-      center: myLatlng,
-      zoom: 11,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    // init map
-    var map = new google.maps.Map(document.getElementById("map2"),
-      mapOptions);
-
-    // Try HTML5 geolocation.
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        var pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        myLatlng = pos;
-        map.setCenter(pos);
-      }, function() {
-        handleLocationError(true, map.getCenter());
-      });
-    } else {
-      // Browser doesn't support Geolocation
-      handleLocationError(false, map.getCenter());
-    }
-    // assign to stop
-    $scope.map = map;
   }
 })
 

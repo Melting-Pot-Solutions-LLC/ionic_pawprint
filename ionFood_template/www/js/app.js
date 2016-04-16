@@ -42,55 +42,37 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
   })
   .state('meetUp', {
     url: '/meetUp',
-    //views: {
-      templateUrl: 'templates/meetUp.html',
-      controller: 'MeetUpController'
-    //}
+    templateUrl: 'templates/meetUp.html',
+    controller: 'MeetUpController'
   })
   .state('about', {
     url: '/about',
-    //views: {
-      templateUrl: 'templates/help.html'
-    //}
+    templateUrl: 'templates/help.html'
   })
   .state('history', {
     url: '/history',
-    //views: {
-      templateUrl: 'templates/history.html'
-    //}
+    templateUrl: 'templates/history.html'
   })
   .state('addaplace', {
     url: '/addaplace',
-    //views: {
-    //  'addaplace': {
-        templateUrl: 'templates/add_a_place.html',
-        controller: 'AddPlaceController'
-    //  }
-    //}
+    templateUrl: 'templates/add_a_place.html',
+    controller: 'AddPlaceController'
   })
   .state('friends', {
     url: '/friends',
-    //views: {
-      templateUrl: 'templates/friends.html'
-    //}
+    templateUrl: 'templates/friends.html'
   })
   .state('liked', {
     url: '/liked',
-    //views: {
-      templateUrl: 'templates/liked.html'
-    //}
+    templateUrl: 'templates/liked.html'
   })
   .state('checkIn', {
     url: '/checkIn',
-    //views: {
-      templateUrl: 'templates/checkIn.html'
-    //}
+    templateUrl: 'templates/checkIn.html'
   })
   .state('settings', {
     url: '/settings',
-    //views: {
-      templateUrl: 'templates/settings.html'
-    //}
+    templateUrl: 'templates/settings.html'
   })
   .state('tab.home', {
     url: '/home',
@@ -164,12 +146,8 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
   // register screen
   .state('register', {
     url: '/register',
-    //views: {
-      //'register': {
-        templateUrl: 'templates/register.html',
-        controller: 'RegCtrl'
-      //}
-    //}
+      templateUrl: 'templates/register.html',
+      controller: 'RegCtrl'
   });
 
   // default url state

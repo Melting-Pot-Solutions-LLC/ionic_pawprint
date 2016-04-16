@@ -16,19 +16,6 @@
       </button>
     </div>
     <ion-list>
-      <!--<ion-item class="item-remove-animate item-thumbnail-left item-icon-right" type="item-text-wrap" ui-sref="detail">
-        <img ng-src="img/r1_thumb.jpg">
-        <h2>Sumo BBQ</h2>
-        <p>
-          <i class="ion-ios-location assertive"></i>
-          29 Thái Phiên Quận Hai Bà Trưng.
-        </p>
-        <p>
-          <i class="ion-android-favorite"></i> 129
-          <i class="ion-chatbox"></i> 200
-        </p>
-        <i class="icon ion-chevron-right icon-accessory"></i>
-      </ion-item>-->
 
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="place in places_to_show" type="item-text-wrap" href="#/location/{{place.id}}">
         <img ng-src="img/{{place.type}}.png">
