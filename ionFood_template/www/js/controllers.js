@@ -1,6 +1,8 @@
 angular.module('starter.controllers', ['firebase'])
 
-.controller('HomeController', function($scope) {})
+.controller('HomeController', function($scope,$state,$rootScope) {
+  
+})
 
 .controller('RegCtrl', function($scope, $state, $rootScope) {
   
@@ -57,9 +59,7 @@ angular.module('starter.controllers', ['firebase'])
         $state.go('tab.home');
       }
     });
-
   }
-
 })
 
 .controller('DetailController', function($scope, $ionicNavBarDelegate, $stateParams, $rootScope) {
@@ -69,9 +69,6 @@ angular.module('starter.controllers', ['firebase'])
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
     $scope.initialize();
   });
-
-
-
   //Get specific place object from database here
 
   $scope.initialize = function() {
@@ -121,6 +118,195 @@ angular.module('starter.controllers', ['firebase'])
   }
 
   //Get list of reviews available for specific location
+})
+
+.controller('RBController', function($scope, $rootScope, $state){
+  function initialize() {
+    var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
+    // set option for map
+    var mapOptions = {
+      center: myLatlng,
+      zoom: 11,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    // init map
+    var map = new google.maps.Map(document.getElementById("map5"),
+      mapOptions);
+
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        myLatlng = pos;
+        map.setCenter(pos);
+      }, function() {
+        handleLocationError(true, map.getCenter());
+      });
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, map.getCenter());
+    }
+
+    // assign to stop
+    $scope.map5 = map;
+  }
+  // load map when the ui is loaded
+  $scope.init = function() 
+  {
+    initialize();
+    myDataRef.on("value", function(snapshot)
+    {
+      console.log("here is the DB" + snapshot.val());
+      $scope.places_in_database = snapshot.val();
+      $scope.places_to_show = [];
+      $scope.markers = [];
+      $scope.displayRB();
+    }, function (errorObject) 
+    {
+      console.log("The read failed: " + errorObject.code);
+    });
+  }
+
+  $scope.deleteMarkers = function()
+  {
+    console.log("deleting markers...");
+    for (var i = 0; i < $scope.markers.length; i++)
+    {
+      $scope.markers[i].setMap(null);
+    }
+  }
+  $scope.displayRB = function()
+  {
+    $scope.deleteMarkers();
+    $scope.markers = [];
+    $scope.places_to_show = [];
+
+    for (var i = 0; i < $scope.places_in_database.length; i++) 
+    {
+      if($scope.places_in_database[i].type == "RB")
+      {
+        var pos = {lat: $scope.places_in_database[i].lat, lng: $scope.places_in_database[i].lng};
+        var marker = new google.maps.Marker({
+          position: pos,
+          map: $scope.map5,
+          title: $scope.places_in_database[i].name,
+          icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+        });
+
+        $scope.places_to_show.push($scope.places_in_database[i]);
+        $scope.markers.push(marker);
+      }
+    }
+    console.log("displaying only RB");
+  }
+  $scope.click = function (id) {
+    //console.log("log");
+    //$window.location.reload(true);
+    $rootScope.place_id = id;
+    $state.go('detail');
+  }
+})
+
+.controller('VPController', function($scope, $rootScope, $state){
+  function initialize() {
+    var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
+    // set option for map
+    var mapOptions = {
+      center: myLatlng,
+      zoom: 11,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    // init map
+    var map = new google.maps.Map(document.getElementById("map6"),
+      mapOptions);
+
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        myLatlng = pos;
+        map.setCenter(pos);
+      }, function() {
+        handleLocationError(true, map.getCenter());
+      });
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, map.getCenter());
+    }
+
+    // assign to stop
+    $scope.map6 = map;
+  }
+  // load map when the ui is loaded
+  $scope.init = function() 
+  {
+    initialize();
+    myDataRef.on("value", function(snapshot)
+    {
+      console.log("here is the DB" + snapshot.val());
+      $scope.places_in_database = snapshot.val();
+      $scope.places_to_show = [];
+      $scope.markers = [];
+      $scope.displayVP();
+    }, function (errorObject) 
+    {
+      console.log("The read failed: " + errorObject.code);
+    });
+  }
+
+  $scope.deleteMarkers = function()
+  {
+    console.log("deleting markers...");
+    for (var i = 0; i < $scope.markers.length; i++)
+    {
+      $scope.markers[i].setMap(null);
+    }
+  }
+  $scope.displayVP = function()
+  {
+    $scope.deleteMarkers();
+    $scope.markers = [];
+    $scope.places_to_show = [];
+
+    for (var i = 0; i < $scope.places_in_database.length; i++) 
+    {
+      if($scope.places_in_database[i].type == "Vet" || $scope.places_in_database[i].type == "Park")
+      {
+        var pos = {lat: $scope.places_in_database[i].lat, lng: $scope.places_in_database[i].lng};
+        if($scope.places_in_database[i].type == "Vet"){
+          var marker = new google.maps.Marker({
+            position: pos,
+            map: $scope.map6,
+            title: $scope.places_in_database[i].name,
+            icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+          });
+        }
+        else{
+          var marker = new google.maps.Marker({
+            position: pos,
+            map: $scope.map6,
+            title: $scope.places_in_database[i].name,
+            icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+          });
+        }
+        $scope.places_to_show.push($scope.places_in_database[i]);
+        $scope.markers.push(marker);
+      }
+    }
+    console.log("displaying only V and P");
+  }
+  $scope.click = function (id) {
+    //console.log("log");
+    //$window.location.reload(true);
+    $rootScope.place_id = id;
+    $state.go('detail');
+  }
 })
 
 .controller('Location', function($state, $scope, $ionicLoading, $compile, $rootScope) {
