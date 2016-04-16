@@ -45,6 +45,11 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
     templateUrl: 'templates/meetUp.html',
     controller: 'MeetUpController'
   })
+  .state('addMeet', {
+    url: '/AddMeetUp',
+    templateUrl: 'templates/addMeet.html',
+    controller: 'AddMeetController'
+  })
   .state('about', {
     url: '/about',
     templateUrl: 'templates/help.html'

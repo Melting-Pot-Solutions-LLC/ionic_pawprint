@@ -397,8 +397,43 @@ angular.module('starter.controllers', ['firebase'])
 })
 
 .controller('MeetUpDetailController', function($scope, $ionicNavBarDelegate, $stateParams, MeetUps) {
-  $ionicNavBarDelegate.showBackButton(true);
-  $scope.meetUp = MeetUps.get($stateParams.meetUpId);
+  $scope.initialize = function() {
+    $ionicNavBarDelegate.showBackButton(true);
+    $scope.meetUp = MeetUps.get($stateParams.meetUpId);
+    var meetUp = MeetUps.get($stateParams.meetUpId);
+
+    var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
+    // set option for map
+    var mapOptions = {
+      center: myLatlng,
+      zoom: 11,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    // init map
+    var map = new google.maps.Map(document.getElementById("map4"),
+      mapOptions);
+
+    var pos = {
+      lat: meetUp.lat,
+      lng: meetUp.lng
+    };
+    myLatlng = pos;
+    map.setCenter(pos);
+
+    //add a marker at location
+    var marker = new google.maps.Marker({
+      position: pos,
+      map: map,
+    });
+    var infowindow = new google.maps.InfoWindow({
+      content: meetUp.name
+    });
+    infowindow.open(map,marker);
+    console.log("opening a marker");
+
+    // assign to stop
+    $scope.map4 = map;
+  }
 })
 
 .controller('AddPlaceController', function($scope, $ionicPopup ) {
@@ -516,6 +551,18 @@ angular.module('starter.controllers', ['firebase'])
     });
   }
 
+})
+
+.controller('AddMeetController', function($scope, $state, MeetUps){
+  var self=this;
+  self.name = "";
+  self.location = "";
+  self.address = "";
+  self.dateTime = new Date("");
+  $scope.add = function() {
+    MeetUps.add(self.name,self.location,self.address,self.dateTime);
+    $state.go("meetUp");
+  }
 })
 
 .controller('AccountController', function($scope ) {})

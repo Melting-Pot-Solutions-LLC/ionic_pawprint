@@ -4,9 +4,14 @@
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="meetUp in meetUps_to_show" type="item-text-wrap" href="#/meetUp/{{meetUp.id}}">
         <!--<img ng-src="img/{{place.type}}.png">-->
         <h2>{{meetUp.name}}</h2>
-        <p>Meet up at {{meetUp.location}} on {{meetUp.date}} at {{meetUp.time}}</p>
+        <p>Meet up at {{meetUp.location}} on {{meetUp.dateTime}}</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
       </ion-item>
     </ion-list>
+    <div class="padding">
+	    <button class="button button-block button-positive" style="position: fixed; bottom: 20px; width: 95%" ui-sref="addMeet">
+	        Add Meet Up 
+	    </button>
+    </div>
   </ion-content>
 </ion-view>

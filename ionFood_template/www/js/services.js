@@ -6,26 +6,35 @@ angular.module('starter.services', [])
 		id: 0,
 		name: 'Meet at Jake\'s',
 		location: 'Jake\'s',
-		date: 'April 20, 2016',
-		time: '6:00PM'
+		address: '',
+		dateTime: 'April 20, 2016'
 	}, {
 		id: 1,
 		name: 'Meet at Jake\'s',
 		location: 'Jake\'s',
-		date: 'April 20, 2016',
-		time: '6:00PM'
+		address: '',
+		dateTime: 'April 20, 2016'
 	}];
 	return {
 		all: function() {
 			return meetUps;
 		},
 		get: function(meetUpId) {
-      	for (var i = 0; i < meetUps.length; i++) {
-        	if (meetUps[i].id === parseInt(meetUpId)) {
-          		return meetUps[i];
-        	}
-      	}
-      	return null;
+	      	for (var i = 0; i < meetUps.length; i++) {
+	        	if (meetUps[i].id === parseInt(meetUpId)) {
+	          		return meetUps[i];
+	        	}
+	      	}
+	      	return null;
+    	},
+    	add: function(nameN,locationN,addressN,dateTimeN){
+    		meetUps.push({
+    			id: meetUps.length,
+    			name: nameN,
+    			location: locationN,
+    			address: addressN,
+    			dateTime: dateTimeN
+    		})
     	}
 	};
 });

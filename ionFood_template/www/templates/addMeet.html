@@ -1,0 +1,16 @@
+<ion-view view-title="Add a Meet Up" ng-controller="AddMeetController as controller">
+  <ion-content>
+    <div class="padding">
+      <h4>Meet Up Information</h4>
+
+      <input type="text" placeholder="Name of Meet Up" ng-model="controller.name" size="100" required> 
+      <input type="text" placeholder="Place Name" ng-model="controller.location" size="100" required>
+      <input type="text" placeholder="Place Address" ng-model="controller.address" size="100" required> 
+      <input type="date" placeholder="date" ng-model="controller.dateTime" size="100">
+
+      <button class="button button-block button-positive" style="position: fixed; bottom: 20px; width: 95%" ng-click="add()">
+          Submit
+      </button>
+    </div>
+  </ion-content>
+</ion-view>
