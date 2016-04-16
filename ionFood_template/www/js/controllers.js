@@ -413,7 +413,7 @@ angular.module('starter.controllers', ['firebase'])
 
     google.maps.event.addListener(map, 'click', function(event) 
     {
-      placeMarker(event.latLng);
+      placeMarker(event.latLng, map);
       console.log("opening a marker");
     });
 
@@ -444,7 +444,7 @@ angular.module('starter.controllers', ['firebase'])
     $scope.map = map;
   }
 
-  function placeMarker(location) 
+  function placeMarker(location, map) 
   {
     var marker = new google.maps.Marker({
       position: location,
