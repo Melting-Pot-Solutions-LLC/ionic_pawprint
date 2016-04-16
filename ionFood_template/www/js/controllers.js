@@ -367,7 +367,7 @@ angular.module('starter.controllers', ['firebase'])
   $scope.meetUp = MeetUps.get($stateParams.meetUpId);
 })
 
-.controller('AddPlaceController', function($scope ) {
+.controller('AddPlaceController', function($scope, $ionicPopup ) {
   console.log("opened add a place view");
 
   $scope.choose_type = function(type)
@@ -413,15 +413,18 @@ angular.module('starter.controllers', ['firebase'])
     var map = new google.maps.Map(document.getElementById("map"),
       mapOptions);
 
+    google.maps.event.addListener(map, 'click', function(event) 
+    {
+      placeMarker(event.latLng);
+      console.log("opening a marker");
+    });
+
 
     var geocoder = new google.maps.Geocoder();
     document.getElementById('addaplace_button').addEventListener('click', function() 
     {
           geocodeAddress(geocoder, map);
-          console.log("clicked");
     });
-
-
 
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
@@ -443,6 +446,22 @@ angular.module('starter.controllers', ['firebase'])
     $scope.map = map;
   }
 
+
+
+  function placeMarker(location) 
+  {
+    var marker = new google.maps.Marker({
+      position: location,
+      map: map,
+    });
+    var infowindow = new google.maps.InfoWindow({
+      content: 'Latitude: ' + location.lat() + '<br>Longitude: ' + location.lng()
+    });
+    infowindow.open(map,marker);
+    console.log("opening a marker");
+  }
+
+
   function geocodeAddress(geocoder, resultsMap) 
   {
     var address = document.getElementById('location').value;
@@ -454,10 +473,19 @@ angular.module('starter.controllers', ['firebase'])
           position: results[0].geometry.location
         });
       } else {
-        alert('Geocode was not successful for the following reason: ' + status);
+        //alert('Geocode was not successful for the following reason: ' + status);
+        $ionicPopup.alert({
+          title: 'Error',
+          content: 'Wrong Location! Please reenter the address of the place'
+        }).then(function(res) {
+          console.log('User input wrong location');
+          //$("#location").val("");
+        });
       }
     });
   }
+
+
 
 
 })
