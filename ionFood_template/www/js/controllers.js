@@ -76,11 +76,11 @@ angular.module('starter.controllers', ['firebase'])
 
   $scope.initialize = function() {
 
-    console.log($rootScope.id);
+    console.log($rootScope.place_id);
     myDataRef.on("value", function(snapshot)
     {
       console.log("here is the DB" + snapshot.val());
-      $scope.place = snapshot.val()[0];
+      $scope.place = snapshot.val()[$rootScope.place_id];
     }, function (errorObject) 
     {
       console.log("The read failed: " + errorObject.code);

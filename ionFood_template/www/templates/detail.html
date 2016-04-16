@@ -1,24 +1,30 @@
-<ion-view view-title="{{place.name}}" hide-back-button="false" class="stable-bg" ng-init="initialize()">
+<ion-view view-title="Place detail" hide-back-button="false" class="stable-bg" ng-init="initialize()">
   <ion-content>
-    <div class="item row-no-padding light-bg">
-      <img class="full-image" src="{{place.type}}.png">
-      <!-- <span class="overlay-rating light">{{place.rating}}</span> -->
+    
+      
+      <div id="map3" data-tap-disabled="true" style="height: 200px; width: 100%;"></div>
+      <div class="item row-no-padding light-bg">
+       <span class="overlay-rating light">5.0</span>
       <div class="padding">
-        <!--<h2>{{place.name}}</h2>-->
+        <h2>{{place.name}}</h2>
         <p>
           <i class="ion-ios-location assertive"></i>
-          <!--{{place.addr}}-->
+          {{place.addr}}
         </p>
       </div>
-      <div id="map3" data-tap-disabled="true" style="height: 200px; width: 100%;"></div>
-    </div>
+      </div>
+      <img class="full-image" src="img/jakes.JPG" style="width:100%, height: auto;">
+    
     <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="review in reviews_to_show" type="item-text-wrap">
-        <!--<img ng-src="{{}}">-->
-        <!--<h2>{{review.name}}</h2>
+        <img ng-src="{{}}">
+        <h2>{{review.name}}</h2>
         <h4>{{review.userName}}</h4>
-        <p>{{review.content}}</p>-->
+        <p>{{review.content}}</p>
       </ion-item>
     </ion-list>
+    <button class="button button-block button-positive" ng-click="leave_review()">
+        Leave a review
+      </button>
   </ion-content>
 </ion-view>
