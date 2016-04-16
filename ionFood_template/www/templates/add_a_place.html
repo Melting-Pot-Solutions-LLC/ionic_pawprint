@@ -7,11 +7,11 @@
           <input type="text" placeholder="Name">
         </label>
         <label class="item item-input">
-          <input type="text" placeholder="Location">
+          <input type="text" placeholder="Location" id="location">
         </label>
       </div>
       <h4>Show it on the map</h4>
-      <div id="map2" data-tap-disabled="true"></div>
+      <div id="map" data-tap-disabled="true" style="height: 200px; width: 100%;"></div>
       <h4>Type</h4>
       <div class="button-bar">
         <!-- <a class="button button-small ">Nearby</a> -->
@@ -19,7 +19,7 @@
         <a id="vet" class="button button-small active" ng-click="choose_type('vet')">Vet</a>
         <a id="park" class="button button-small" ng-click="choose_type('park')">Park</a>
       </div>
-      <button class="button button-block button-positive" ng-click="applyFilter()" style="position: fixed; bottom: 40px; width: 95%">
+      <button class="button button-block button-positive" ng-click="applyFilter()" id="addaplace_button" style="position: fixed; bottom: 40px; width: 95%">
         Add a place 
       </button>
     </div>

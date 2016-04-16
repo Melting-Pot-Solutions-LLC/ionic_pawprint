@@ -365,7 +365,7 @@ angular.module('starter.controllers', ['firebase'])
   $scope.meetUp = MeetUps.get($stateParams.meetUpId);
 })
 
-.controller('AddPlaceController', function($scope ) {
+.controller('AddPlaceController', function($scope, $ionicPopup ) {
   console.log("opened add a place view");
 
   $scope.choose_type = function(type)
@@ -398,6 +398,88 @@ angular.module('starter.controllers', ['firebase'])
         break;
     }
   }
+
+  $scope.initialize = function() {
+    var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
+    // set option for map
+    var mapOptions = {
+      center: myLatlng,
+      zoom: 11,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    // init map
+    var map = new google.maps.Map(document.getElementById("map"),
+      mapOptions);
+
+    google.maps.event.addListener(map, 'click', function(event) 
+    {
+      placeMarker(event.latLng);
+      console.log("opening a marker");
+    });
+
+
+    var geocoder = new google.maps.Geocoder();
+    document.getElementById('addaplace_button').addEventListener('click', function() 
+    {
+          geocodeAddress(geocoder, map);
+    });
+
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        myLatlng = pos;
+        map.setCenter(pos);
+      }, function() {
+        handleLocationError(true, map.getCenter());
+      });
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, map.getCenter());
+    }
+    // assign to stop
+    $scope.map = map;
+  }
+
+  function placeMarker(location) 
+  {
+    var marker = new google.maps.Marker({
+      position: location,
+      map: map,
+    });
+    var infowindow = new google.maps.InfoWindow({
+      content: 'Latitude: ' + location.lat() + '<br>Longitude: ' + location.lng()
+    });
+    infowindow.open(map,marker);
+    console.log("opening a marker");
+  }
+
+  function geocodeAddress(geocoder, resultsMap) 
+  {
+    var address = document.getElementById('location').value;
+    geocoder.geocode({'address': address}, function(results, status) {
+      if (status === google.maps.GeocoderStatus.OK) {
+        resultsMap.setCenter(results[0].geometry.location);
+        var marker = new google.maps.Marker({
+          map: resultsMap,
+          position: results[0].geometry.location
+        });
+      } else {
+        //alert('Geocode was not successful for the following reason: ' + status);
+        $ionicPopup.alert({
+          title: 'Error',
+          content: 'Wrong Location! Please reenter the address of the place'
+        }).then(function(res) {
+          console.log('User input wrong location');
+          //$("#location").val("");
+        });
+      }
+    });
+  }
+
 })
 
 .controller('AccountController', function($scope ) {})
