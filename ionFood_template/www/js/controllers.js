@@ -408,7 +408,7 @@ angular.module('starter.controllers', ['firebase'])
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     // init map
-    var map = new google.maps.Map(document.getElementById("map"),
+    var map = new google.maps.Map(document.getElementById("map2"),
       mapOptions);
 
     google.maps.event.addListener(map, 'click', function(event) 
@@ -441,7 +441,7 @@ angular.module('starter.controllers', ['firebase'])
       handleLocationError(false, map.getCenter());
     }
     // assign to stop
-    $scope.map = map;
+    $scope.map2 = map;
   }
 
   function placeMarker(location, map) 
