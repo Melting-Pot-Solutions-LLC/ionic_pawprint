@@ -17,7 +17,7 @@
     </div>
     <ion-list>
 
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="place in places_to_show" type="item-text-wrap" href="#/location/{{place.id}}">
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="place in places_to_show" type="item-text-wrap" ng-click="click({{place.id}})">
         <img ng-src="img/{{place.type}}.png">
         <h2>{{place.name}}</h2>
         <p>{{place.addr}}</p>

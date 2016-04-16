@@ -2,12 +2,12 @@
   <ion-content>
     <div class="item row-no-padding light-bg">
       <img class="full-image" src="{{place.type}}.png">
-      <span class="overlay-rating light">{{place.rating}}</span>
+      <!-- <span class="overlay-rating light">{{place.rating}}</span> -->
       <div class="padding">
-        <h2>{{place.name}}</h2>
+        <!--<h2>{{place.name}}</h2>-->
         <p>
           <i class="ion-ios-location assertive"></i>
-          {{place.addr}}
+          <!--{{place.addr}}-->
         </p>
       </div>
       <div id="map3" data-tap-disabled="true" style="height: 200px; width: 100%;"></div>
@@ -15,9 +15,9 @@
     <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="review in reviews_to_show" type="item-text-wrap">
         <!--<img ng-src="{{}}">-->
-        <h2>{{review.name}}</h2>
+        <!--<h2>{{review.name}}</h2>
         <h4>{{review.userName}}</h4>
-        <p>{{review.content}}</p>
+        <p>{{review.content}}</p>-->
       </ion-item>
     </ion-list>
   </ion-content>

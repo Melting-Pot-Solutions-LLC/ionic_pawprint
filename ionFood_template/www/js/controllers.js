@@ -62,13 +62,31 @@ angular.module('starter.controllers', ['firebase'])
 
 })
 
-.controller('DetailController', function($scope, $ionicNavBarDelegate, $stateParams) {
+.controller('DetailController', function($scope, $ionicNavBarDelegate, $stateParams, $rootScope) {
   // show back button
   $ionicNavBarDelegate.showBackButton(true);
+
+  $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+    $scope.initialize();
+  });
+
+
 
   //Get specific place object from database here
 
   $scope.initialize = function() {
+
+    console.log($rootScope.id);
+    myDataRef.on("value", function(snapshot)
+    {
+      console.log("here is the DB" + snapshot.val());
+      $scope.place = snapshot.val()[0];
+    }, function (errorObject) 
+    {
+      console.log("The read failed: " + errorObject.code);
+    });
+
+
     var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
     // set option for map
     var mapOptions = {
@@ -79,21 +97,21 @@ angular.module('starter.controllers', ['firebase'])
     // init map
     var map = new google.maps.Map(document.getElementById("map3"),
       mapOptions);
-
+    
     var pos = {
-      lat: place.lat,
-      lng: place.lng
+      lat: $scope.place.lat,
+      lng: $scope.place.lng
     };
     myLatlng = pos;
     map.setCenter(pos);
-
+    
     //add a marker at location
     var marker = new google.maps.Marker({
       position: pos,
       map: map,
     });
     var infowindow = new google.maps.InfoWindow({
-      content: place.name
+      content: $scope.place.name
     });
     infowindow.open(map,marker);
     console.log("opening a marker");
@@ -105,7 +123,7 @@ angular.module('starter.controllers', ['firebase'])
   //Get list of reviews available for specific location
 })
 
-.controller('Location', function($scope, $ionicLoading, $compile) {
+.controller('Location', function($state, $scope, $ionicLoading, $compile, $rootScope) {
   /**
    * The CenterControl adds a control to the map that recenters the map on
    * the user.
@@ -201,8 +219,6 @@ angular.module('starter.controllers', ['firebase'])
   $scope.init = function() 
   {
     initialize();
-
-    //added by Steve
     myDataRef.on("value", function(snapshot)
     {
       console.log("here is the DB" + snapshot.val());
@@ -338,6 +354,13 @@ angular.module('starter.controllers', ['firebase'])
       }
     }
     console.log("displaying only parks");
+  }
+
+  $scope.click = function (id) {
+    //console.log("log");
+    //$window.location.reload(true);
+    $rootScope.place_id = id;
+    $state.go('detail');
   }
 })
 

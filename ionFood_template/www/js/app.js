@@ -40,6 +40,24 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
     abstract: true,
     templateUrl: 'templates/tabs.html'
   })
+  .state('detail', {
+    url: '/detail',
+    //views: {
+    //  'addaplace': {
+        templateUrl: 'templates/detail.html',
+        controller: 'DetailController'
+    //  }
+    //}
+  })
+
+  // view restaurant detail
+  /*
+  .state('detail', {
+    url: '/location/:placeId',
+    templateUrl: 'templates/detail.html',
+    controller: 'DetailController'
+  })
+  */
   .state('meetUp', {
     url: '/meetUp',
     templateUrl: 'templates/meetUp.html',
@@ -122,12 +140,7 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
     }
   })
 
-  // view restaurant detail
-  .state('detail', {
-    url: '/location/:placeId',
-    templateUrl: 'templates/detail.html',
-    controller: 'DetailController'
-  })
+  
   // view meet up detail
   .state('meetUpDetail', {
     url: '/meetUp/:meetUpId',
