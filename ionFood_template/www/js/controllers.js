@@ -33,9 +33,10 @@ angular.module('starter.controllers', ['firebase'])
       console.log("...successfully logged in with FB...");
       myDataRef_users_facebook.push(authData);
       $rootScope.user_name = authData.facebook.displayName;
-      $rootScope.uid  = authData.facebook.uid;
+      $rootScope.uid  = authData.auth.uid;
       $rootScope.profile_picture = authData.facebook.profileImageURL;
       console.log("user's name is ", $rootScope.user_name);
+
       $state.go('tab.home');
 
     }).catch(function(error) {
@@ -62,7 +63,7 @@ angular.module('starter.controllers', ['firebase'])
   }
 })
 
-.controller('DetailController', function($scope, $ionicNavBarDelegate, $stateParams, $rootScope) {
+.controller('DetailController', function($scope, $ionicNavBarDelegate, $stateParams, $rootScope, $state) {
   // show back button
   $ionicNavBarDelegate.showBackButton(true);
 
@@ -71,17 +72,29 @@ angular.module('starter.controllers', ['firebase'])
   });
   //Get specific place object from database here
 
+
+
+  $scope.addReview = function()
+  {
+    console.log("clicked on add a review function");
+    console.log($rootScope.place_id);
+    $state.go('addReview');
+  }
+
+
   $scope.initialize = function() {
 
-    console.log($rootScope.place_id);
+    console.log("...opening detail vew...");
     myDataRef.on("value", function(snapshot)
     {
-      console.log("here is the DB" + snapshot.val());
-      $scope.place = snapshot.val()[$rootScope.place_id];
+      //console.log("here is the DB" + snapshot.val());
+      $rootScope.place = snapshot.val()[$rootScope.place_id];
     }, function (errorObject) 
     {
       console.log("The read failed: " + errorObject.code);
     });
+
+    console.log("The place is ", $rootScope.place.name);
 
 
     var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
@@ -111,7 +124,7 @@ angular.module('starter.controllers', ['firebase'])
       content: $scope.place.name
     });
     infowindow.open(map,marker);
-    console.log("opening a marker");
+    
 
     // assign to stop
     $scope.map3 = map;
@@ -407,7 +420,7 @@ angular.module('starter.controllers', ['firebase'])
     initialize();
     myDataRef.on("value", function(snapshot)
     {
-      console.log("here is the DB" + snapshot.val());
+      //console.log("here is the DB" + snapshot.val());
       $scope.places_in_database = snapshot.val();
       $scope.places_to_show = [];
       $scope.markers = [];
@@ -833,8 +846,83 @@ angular.module('starter.controllers', ['firebase'])
     $state.go("meetUp");
   }
 })
+
+
+
+
 .controller('CheckInController', function($scope){})
-.controller('AddReviewCtrl', function($scope){})
+
+
+
+
+
+.controller('AddReviewCtrl', function($scope, $rootScope){
+
+  console.log("...opening add a review controller...");
+  console.log("the place is ", $rootScope.place.name);
+  console.log("User's name is ", $rootScope.user_name);
+
+  $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+    $scope.initialize();
+  });
+  //Get specific place object from database here
+
+
+
+  $scope.initialize = function()
+  {
+
+    console.log("...opening add a review vew...");
+    console.log("The place is ", $rootScope.place.name);
+    $("#range_ratings").val("2.5");
+    $scope.range_value = 2.5;
+
+
+    var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
+    // set option for map
+    var mapOptions = {
+      center: myLatlng,
+      zoom: 11,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    // init map
+    var map = new google.maps.Map(document.getElementById("map8"),
+      mapOptions);
+    
+    var pos = {
+      lat: $rootScope.place.lat,
+      lng: $rootScope.place.lng
+    };
+    myLatlng = pos;
+    map.setCenter(pos);
+    
+    //add a marker at location
+    var marker = new google.maps.Marker({
+      position: pos,
+      map: map,
+    });
+    var infowindow = new google.maps.InfoWindow({
+      content: $scope.place.name
+    });
+    infowindow.open(map,marker);
+    
+
+    // assign to stop
+    $scope.map8 = map;
+  }
+
+
+  //console.log($scope.range.value);
+  
+
+
+
+})
+
+
+
+
+
 .controller('AccountController', function($scope ) {})
 .controller('AuthController', function($scope ) {});
 

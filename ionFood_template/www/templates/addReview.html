@@ -1,22 +1,21 @@
 <ion-view view-title="Leave a Review" ng-init="initialize()">
   <ion-content>
     <div class="padding">
-      <h4>Place information</h4>
-      <div class="list list-inset">
-        <label class="item item-input">
-          <input type="text" placeholder="Name">
-        </label>
-        <label class="item item-input">
-          <input type="text" placeholder="Location" id="location">
-        </label>
-      </div>
-      <h4>Show it on the map</h4>
+      <h4>Add a review for <b>{{place.name}}</b></h4>
       <div id="map8" data-tap-disabled="true" style="height: 200px; width: 100%;"></div>
-      <h4>Review</h4>
-      <div class="padding">
-        <input <textarea rows="5" cols="100"></textarea> >
+
+      <h4>Review:</h4>
+      <label class="item item-input">
+        <textarea placeholder="Type your comment here" rows="10" cols="20" style="width: 100%"></textarea>
+        <input type="text">
+      </label>
+      <div class = "item range">
+        <i class = "icon ion-ios-star-half"></i>
+         <input type="range" name="range_ratings" value="2.5" min="0" max="5" step="0.5" id="range_ratings" data-show-value="true" ng-model="range_value">
+         <label for="range_ratings">Rating:{{range_value}}</label>
       </div>
-      <button class="button button-block button-positive" ng-click="submit()" id="addaplace_button" style="position: fixed; bottom: 40px; width: 95%">
+
+      <button class="button button-block button-positive" ng-click="submit()" id="addaplace_button" style=" width: 100%">
         Submit
       </button>
     </div>
