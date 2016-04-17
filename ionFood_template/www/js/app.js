@@ -78,7 +78,8 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
   })
   .state('checkIn', {
     url: '/checkIn',
-    templateUrl: 'templates/checkIn.html'
+    templateUrl: 'templates/checkIn.html',
+    controller: 'CheckInController'
   })
   .state('settings', {
     url: '/settings',

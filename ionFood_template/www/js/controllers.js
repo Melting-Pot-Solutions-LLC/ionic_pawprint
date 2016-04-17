@@ -833,6 +833,7 @@ angular.module('starter.controllers', ['firebase'])
     $state.go("meetUp");
   }
 })
+.controller('CheckInController', function($scope){})
 .controller('AddReviewCtrl', function($scope){})
 .controller('AccountController', function($scope ) {})
 .controller('AuthController', function($scope ) {});

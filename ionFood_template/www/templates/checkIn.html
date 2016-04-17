@@ -1,5 +1,14 @@
-<ion-view view-title="Check In">
+<ion-view view-title="Check In" ng-init="initialize()">
   <ion-content>
-    <p class="text-center">Check In Here!</p>
+    <div class="padding">
+      <h4>Are you here?</h4>
+      <div id="map9" data-tap-disabled="true" style="height: 200px; width: 100%;"></div>
+      <button class="button button-dark" ng-click="yes()"  style="width:30%; min-height: 35px; height: 38px; font-size: 13px;">
+        Yes
+      </button>
+      <button class="button button-dark" ng-click="no()"  style="width:30%; min-height: 35px; height: 38px; font-size: 13px;">
+        No
+      </button>
+    </div>
   </ion-content>
 </ion-view>
