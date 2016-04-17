@@ -114,7 +114,11 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
         templateUrl: 'templates/VPLoc.html',
         controller: 'VPController'
   })
-
+  .state('addReview', {
+    url: '/addReview',
+        templateUrl: 'templates/addReview.html',
+        controller: 'AddReviewCtrl'
+  })
   // search
   .state('tab.search', {
     url: '/search',

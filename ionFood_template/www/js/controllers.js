@@ -601,17 +601,10 @@ angular.module('starter.controllers', ['firebase'])
   }
 })
 
-
-
-
-
-
 .controller('MeetUpController', function($scope) {
   
   $scope.initialize = function()
   {
-    
-
     var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
     // set option for map
     var mapOptions = {
@@ -642,8 +635,6 @@ angular.module('starter.controllers', ['firebase'])
 
     // assign to stop
     $scope.map7 = map7;
-
-
     $scope.markers = [];
 
     myDataRef_meetups.on("value", function(snapshot)
@@ -663,20 +654,13 @@ angular.module('starter.controllers', ['firebase'])
 
         $scope.markers.push(marker);
       }
-      
-
     //added by Steve
     console.log("displaying all the markers");
     }, function (errorObject) 
     {
       console.log("The read failed: " + errorObject.code);
     });
-
-    
-
-
   }
-
 })
 
 .controller('MeetUpDetailController', function($scope, $ionicNavBarDelegate, $stateParams, MeetUps) {
@@ -849,7 +833,7 @@ angular.module('starter.controllers', ['firebase'])
     $state.go("meetUp");
   }
 })
-
+.controller('AddReviewCtrl', function($scope){})
 .controller('AccountController', function($scope ) {})
 .controller('AuthController', function($scope ) {});
 
