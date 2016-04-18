@@ -6,7 +6,7 @@
 
       <h4>Review:</h4>
       <label class="item item-input">
-        <textarea placeholder="Type your comment here" rows="10" cols="20" style="width: 100%"></textarea>
+        <textarea placeholder="Type your comment here" id="text_ratings" rows="10" cols="20" style="width: 100%"></textarea>
         <input type="text">
       </label>
       <div class = "item range">
@@ -15,7 +15,7 @@
          <label for="range_ratings">Rating:{{range_value}}</label>
       </div>
 
-      <button class="button button-block button-positive" ng-click="submit()" id="addaplace_button" style=" width: 100%">
+      <button class="button button-block button-positive" ng-click="submit_review()" id="addaplace_button" style=" width: 100%">
         Submit
       </button>
     </div>

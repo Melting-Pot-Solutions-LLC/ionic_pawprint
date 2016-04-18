@@ -33,7 +33,7 @@ angular.module('starter.controllers', ['firebase'])
       console.log("...successfully logged in with FB...");
       myDataRef_users_facebook.push(authData);
       $rootScope.user_name = authData.facebook.displayName;
-      $rootScope.uid  = authData.auth.uid;
+      $rootScope.user_id  = authData.auth.uid;
       $rootScope.profile_picture = authData.facebook.profileImageURL;
       console.log("user's name is ", $rootScope.user_name);
 
@@ -54,7 +54,7 @@ angular.module('starter.controllers', ['firebase'])
         console.log("...successfully logged in with GMail...", authData);
         myDataRef_user_gmail.push(authData);
         $rootScope.user_name = authData.google.displayName;
-        $rootScope.uid  = authData.google.uid;
+        $rootScope.user_id  = authData.auth.uid;
         $rootScope.profile_picture = authData.google.profileImageURL;
         console.log("user's name is ", $rootScope.user_name);
         $state.go('tab.home');
@@ -718,7 +718,7 @@ angular.module('starter.controllers', ['firebase'])
   }
 })
 
-.controller('AddPlaceController', function($scope, $ionicPopup ) {
+.controller('AddPlaceController', function($scope, $ionicPopup, $state ) {
   console.log("opened add a place view");
 
   $scope.choose_type = function(type)
@@ -827,7 +827,6 @@ angular.module('starter.controllers', ['firebase'])
           content: 'Wrong Location! Please reenter the address of the place'
         }).then(function(res) {
           console.log('User input wrong location');
-          //$("#location").val("");
         });
       }
     });
@@ -856,11 +855,12 @@ angular.module('starter.controllers', ['firebase'])
 
 
 
-.controller('AddReviewCtrl', function($scope, $rootScope){
+.controller('AddReviewCtrl', function($scope, $rootScope, $ionicPopup, $state){
 
   console.log("...opening add a review controller...");
   console.log("the place is ", $rootScope.place.name);
   console.log("User's name is ", $rootScope.user_name);
+  console.log("User's name is ", $rootScope.user_id);
 
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
     $scope.initialize();
@@ -913,9 +913,55 @@ angular.module('starter.controllers', ['firebase'])
 
 
   //console.log($scope.range.value);
-  
+  $scope.submit_review = function()
+  {
+    console.log("submitting rating " + $("#range_ratings").val());
+    console.log("submitting review text " + $("#text_ratings").val());
+    console.log("pushing a review ot the database");
+    
+    var review = 
+    {
+      name: $rootScope.user_name,
+      uid: $rootScope.user_id,
+      text: $("#text_ratings").val(),
+      rating: $("#range_ratings").val()
+    }
 
 
+    var places_in_database = [];
+    //console.log(review);
+    myDataRef.on("value", function(snapshot)
+    {
+      console.log("here is the DB" + snapshot.val());
+      places_in_database = snapshot.val();
+      
+      
+
+    }, function (errorObject) 
+    {
+      console.log("The read failed: " + errorObject.code);
+    });
+
+    if (places_in_database[$rootScope.place.id].reviews == null)
+    {
+      places_in_database[$rootScope.place.id].reviews = [];
+    }
+    places_in_database[$rootScope.place.id].reviews.push(review);
+
+    console.log(places_in_database[$rootScope.place.id]);
+    myDataRef.set(places_in_database);
+
+    $ionicPopup.alert({
+      title: 'Thank you!',
+      content: 'Your review is submitted. You will now be redirected back to the map.'
+    }).then(function(res) {
+      console.log('User input wrong location');
+      $state.go('tab.location');
+
+    });
+
+
+  }
 
 })
 
