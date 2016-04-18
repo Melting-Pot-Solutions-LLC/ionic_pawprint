@@ -92,12 +92,18 @@ angular.module('starter.controllers', ['firebase'])
       $rootScope.place = snapshot.val()[$rootScope.place_id];
       $scope.reviews_to_show = $rootScope.place.reviews;
       
-      $scope.average_review = 0;
-      for (var i = 0; i < $scope.reviews_to_show.length; i++) 
+      if($scope.reviews_to_show != null)
       {
-        $scope.average_review += $scope.reviews_to_show[i].rating;
+        for (var i = 0; i < $scope.reviews_to_show.length; i++) 
+        {
+          $scope.average_review += $scope.reviews_to_show[i].rating;
+        }
+        $scope.average_review /= parseFloat($scope.reviews_to_show.length);
       }
-      $scope.average_review /= parseFloat($scope.reviews_to_show.length);
+      else
+      {
+        $scope.average_review = ":(";
+      }
 
 
 
@@ -627,8 +633,20 @@ angular.module('starter.controllers', ['firebase'])
   }
 })
 
-.controller('MeetUpController', function($scope) {
+.controller('MeetUpController', function($scope, $state, $rootScope) {
+
+  $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+    $scope.initialize();
+  });
+
   
+  $scope.click = function(id)
+  {
+    console.log("meet up id is ", id);
+    $rootScope.meetup = $scope.meetUps_to_show[id];
+    $state.go('meetUpDetail');
+  }
+
   $scope.initialize = function()
   {
     var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
@@ -639,7 +657,7 @@ angular.module('starter.controllers', ['firebase'])
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     // init map
-    var map7 = new google.maps.Map(document.getElementById("map7"),
+    var map9 = new google.maps.Map(document.getElementById("map9"),
       mapOptions);
 
     // Try HTML5 geolocation.
@@ -650,7 +668,7 @@ angular.module('starter.controllers', ['firebase'])
           lng: position.coords.longitude
         };
         myLatlng = pos;
-        map7.setCenter(pos);
+        map9.setCenter(pos);
       }, function() {
         handleLocationError(true, map7.getCenter());
       });
@@ -660,7 +678,7 @@ angular.module('starter.controllers', ['firebase'])
     }
 
     // assign to stop
-    $scope.map7 = map7;
+    $scope.map9 = map9;
     $scope.markers = [];
 
     myDataRef_meetups.on("value", function(snapshot)
@@ -670,30 +688,35 @@ angular.module('starter.controllers', ['firebase'])
       
       for (var i = 0; i < $scope.meetUps_to_show.length; i++) 
       {
-        console.log(i);
         var pos = {lat: $scope.meetUps_to_show[i].lat, lng: $scope.meetUps_to_show[i].lng};
         var marker = new google.maps.Marker({
           position: pos,
-          map: $scope.map7,
+          map: $scope.map9,
           title: $scope.meetUps_to_show[i].name
         });
 
         $scope.markers.push(marker);
       }
     //added by Steve
-    console.log("displaying all the markers");
+    console.log("displaying all meetups");
     }, function (errorObject) 
     {
       console.log("The read failed: " + errorObject.code);
     });
   }
+
+  
+
+
 })
 
-.controller('MeetUpDetailController', function($scope, $ionicNavBarDelegate, $stateParams, MeetUps) {
+.controller('MeetUpDetailController', function($state, $scope, $ionicNavBarDelegate, $stateParams, MeetUps, $rootScope) {
+  
+    $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+        $scope.initialize();
+      });
+
   $scope.initialize = function() {
-    $ionicNavBarDelegate.showBackButton(true);
-    //$scope.meetUp = MeetUps.get($stateParams.meetUpId);
-    //var meetUp = MeetUps.get($stateParams.meetUpId);
 
     var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
     // set option for map
@@ -703,33 +726,44 @@ angular.module('starter.controllers', ['firebase'])
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     // init map
-    var map = new google.maps.Map(document.getElementById("map4"),
+    var map10 = new google.maps.Map(document.getElementById("map10"),
       mapOptions);
-
-    /*
+    
     var pos = {
-      lat: meetUp.lat,
-      lng: meetUp.lng
+      lat: $rootScope.meetup.lat,
+      lng: $scope.meetup.lng
     };
     myLatlng = pos;
-    map.setCenter(pos);
-
+    map10.setCenter(pos);
+    
     //add a marker at location
     var marker = new google.maps.Marker({
       position: pos,
-      map: map,
+      map: map10,
     });
     var infowindow = new google.maps.InfoWindow({
-      content: meetUp.name
+      content: $rootScope.meetup.name
     });
-    infowindow.open(map,marker);
-    console.log("opening a marker");
-    */
+    infowindow.open(map10,marker);
+    
 
     // assign to stop
-    $scope.map4 = map;
+    $scope.map3 = map10;
   }
+
 })
+
+
+
+
+
+
+
+
+
+
+
+
 
 .controller('AddPlaceController', function($scope, $ionicPopup, $state, $rootScope, $ionicPopup ) {
   console.log("opened add a place view");
@@ -856,7 +890,9 @@ angular.module('starter.controllers', ['firebase'])
 
 
       console.log("pushing new place " , place_to_push);
-      myDataRef.push(place_to_push);
+
+      $scope.places_in_database.push(place_to_push);
+      myDataRef.set($scope.places_in_database);
       $rootScope.place = place_to_push;
       $ionicPopup.alert({
           title: 'Thanks!',
@@ -916,7 +952,7 @@ angular.module('starter.controllers', ['firebase'])
 
 })
 
-.controller('AddMeetController', function($scope, $state, MeetUps){
+.controller('AddMeetController', function($scope, $state, MeetUps, $rootScope, $ionicPopup){
   var self=this;
   self.name = "";
   self.location = "";
@@ -925,6 +961,149 @@ angular.module('starter.controllers', ['firebase'])
   $scope.add = function() {
     MeetUps.add(self.name,self.location,self.address,self.dateTime);
     $state.go("meetUp");
+  }
+
+  function placeMarker(location, map) 
+  {
+    var marker = new google.maps.Marker({
+      position: location,
+      map: map,
+    });
+    var infowindow = new google.maps.InfoWindow({
+      content: 'Latitude: ' + location.lat() + '<br>Longitude: ' + location.lng()
+    });
+    infowindow.open(map,marker);
+    console.log("opening a marker");
+  }
+
+  function geocodeAddress(geocoder, resultsMap) 
+  {
+    var address = document.getElementById('location').value;
+    geocoder.geocode({'address': address}, function(results, status) {
+      if (status === google.maps.GeocoderStatus.OK) {
+        resultsMap.setCenter(results[0].geometry.location);
+        var marker = new google.maps.Marker({
+          map: resultsMap,
+          position: results[0].geometry.location
+        });
+        $scope.formatted_address = results[0].formatted_address; 
+        //$scope.lat = results[0].geometry.bounds.R.R; 
+        //$scope.lng = results[0].geometry.bounds.J.J;
+        $scope.lat = results[0].geometry.location.lat(); 
+        $scope.lng = results[0].geometry.location.lng();  
+        console.log($scope.lat, $scope.lng );
+      } else {
+        //alert('Geocode was not successful for the following reason: ' + status);
+        $ionicPopup.alert({
+          title: 'Error',
+          content: 'Wrong Location! Please reenter the address of the place'
+        }).then(function(res) {
+          console.log('User input wrong location');
+        });
+      }
+    });
+  }
+
+
+
+  $scope.initialize = function() {
+    var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
+    // set option for map
+    var mapOptions = {
+      center: myLatlng,
+      zoom: 11,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    // init map
+    var map = new google.maps.Map(document.getElementById("map9"),
+      mapOptions);
+
+    google.maps.event.addListener(map, 'click', function(event) 
+    {
+      placeMarker(event.latLng, map);
+      console.log("opening a marker");
+    });
+
+
+    var geocoder = new google.maps.Geocoder();
+
+
+    var delay = (function()
+    {
+      var timer = 0;
+      return function(callback, ms){
+      clearTimeout (timer);
+      timer = setTimeout(callback, ms);
+    };
+    })();
+
+    $('#location').keyup(function()
+    {
+      delay(function()
+      {
+        geocodeAddress(geocoder, map);
+      }, 2000 );
+    });
+
+
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        myLatlng = pos;
+        map.setCenter(pos);
+      }, function() {
+        handleLocationError(true, map.getCenter());
+      });
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, map.getCenter());
+    }
+    // assign to stop
+    $scope.map2 = map;
+
+    
+    myDataRef_meetups.on("value", function(snapshot)
+    {
+      console.log("here is the DB" + snapshot.val());
+      $scope.places_in_database = snapshot.val();
+      $scope.number_of_places = snapshot.val().length;
+    }, function (errorObject) 
+    {
+      console.log("The read failed: " + errorObject.code);
+    });
+
+    
+    document.getElementById('addaplace_button').addEventListener('click', function() 
+    {
+      var place_to_push = 
+      {
+        addr: $scope.formatted_address,
+        id: $scope.number_of_places,
+        lat: $scope.lat,
+        lng: $scope.lng,
+        name: $("#name").val(),
+        time: $("#time").val()
+      };
+
+
+      console.log("pushing new meet up " , place_to_push);
+
+      $scope.places_in_database.push(place_to_push);
+      myDataRef_meetups.set($scope.places_in_database);
+      $rootScope.meet_up = place_to_push;
+      $ionicPopup.alert({
+          title: 'Thanks!',
+          content: 'You just added one more dog owners meetup \n.'
+        }).then(function(res) {
+          $state.go('tab.home');
+        });
+
+
+    });
   }
 })
 

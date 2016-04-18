@@ -1,12 +1,13 @@
 <ion-view view-title="Meetup Details" hide-back-button="false" class="stable-bg" ng-init="initialize()">
   <ion-content>
-  <div id="map4" data-tap-disabled="true" style="height: 200px; width: 100%;"></div>
+  <div id="map10" data-tap-disabled="true" style="height: 200px; width: 100%;"></div>
     <div class="item row-no-padding light-bg">
       <div class="padding">
-        <h2>{{meetUp.name}}</h2>
+        <h2>{{meetup.name}}</h2>
+        <h4>Time to meet: {{meetup.time}}</h4>
         <p>
           <i class="ion-ios-location assertive"></i>
-          {{meetUp.addr}}
+          {{meetup.addr}}
         </p>
       </div>
       </div>
