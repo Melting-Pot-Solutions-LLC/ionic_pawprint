@@ -91,12 +91,17 @@ angular.module('starter.controllers', ['firebase'])
       $scope.reviews_to_show = [];
       $rootScope.place = snapshot.val()[$rootScope.place_id];
       $scope.reviews_to_show = $rootScope.place.reviews;
-      /*
-      for (var i = 0; i < $scope.places_in_database.length; i++) 
+      
+      $scope.average_review = 0;
+      for (var i = 0; i < $scope.reviews_to_show.length; i++) 
       {
-        $scope.reviews_to_show
+        $scope.average_review += $scope.reviews_to_show[i].rating;
       }
-      */
+      $scope.average_review /= parseFloat($scope.reviews_to_show.length);
+
+
+
+      
     }, function (errorObject) 
     {
       console.log("The read failed: " + errorObject.code);
