@@ -97,7 +97,7 @@ angular.module('starter.controllers', ['firebase'])
       $rootScope.place = snapshot.val()[$rootScope.place_id];
       $scope.reviews_to_show = $rootScope.place.reviews;
       console.log($scope.reviews_to_show );
-      
+
       $scope.image_to_show = $rootScope.place.image?$rootScope.place.image:"img/jakes.JPG";
       
 
@@ -849,6 +849,8 @@ angular.module('starter.controllers', ['firebase'])
     {
       placeMarker(event.latLng, map);
       console.log("opening a marker");
+      //var xmlhttp = new XMLHttpRequest();
+      console.log();
     });
 
 
@@ -869,6 +871,8 @@ angular.module('starter.controllers', ['firebase'])
       delay(function()
       {
         geocodeAddress(geocoder, map);
+        geocodeLatLng(geocoder, map)
+
       }, 2000 );
     });
 
@@ -948,6 +952,7 @@ angular.module('starter.controllers', ['firebase'])
     });
     infowindow.open(map,marker);
     console.log("opening a marker");
+
   }
 
   function geocodeAddress(geocoder, resultsMap) 
@@ -966,6 +971,7 @@ angular.module('starter.controllers', ['firebase'])
         $scope.lat = results[0].geometry.location.lat(); 
         $scope.lng = results[0].geometry.location.lng();  
         console.log($scope.lat, $scope.lng );
+
       } else {
         //alert('Geocode was not successful for the following reason: ' + status);
         $ionicPopup.alert({
@@ -977,6 +983,30 @@ angular.module('starter.controllers', ['firebase'])
       }
     });
   }
+
+  function geocodeLatLng(geocoder, map) 
+  {
+        //var input = document.getElementById('latlng').value;
+        //var latlngStr = input.split(',', 2);
+        var latlng = {lat: $scope.lat, lng: $scope.lng};
+        geocoder.geocode({'location': latlng}, function(results, status) {
+          if (status === google.maps.GeocoderStatus.OK) {
+            if (results[1]) {
+              map.setZoom(11);
+              var marker = new google.maps.Marker({
+                position: latlng,
+                map: map
+              });
+              $("#location").val(results[1].formatted_address);
+              //infowindow.open(map, marker);
+            } else {
+              window.alert('No results found');
+            }
+          } else {
+            window.alert('Geocoder failed due to: ' + status);
+          }
+        });
+      }
 
 })
 
