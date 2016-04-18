@@ -8,10 +8,15 @@ angular.module('starter.controllers', ['firebase'])
   
 })
 
-.controller('SideMenuController', function($scope, $rootScope) {
+.controller('SideMenuController', function($scope, $rootScope, $state) {
   $scope.open_menu = function()
   {
     
+  }
+
+  $scope.go_home = function()
+  {
+    $state.go('tab.home');
   }
 
 })
@@ -91,19 +96,25 @@ angular.module('starter.controllers', ['firebase'])
       $scope.reviews_to_show = [];
       $rootScope.place = snapshot.val()[$rootScope.place_id];
       $scope.reviews_to_show = $rootScope.place.reviews;
+      console.log($scope.reviews_to_show );
       
+
+      $scope.average_review = 0;
       if($scope.reviews_to_show != null)
       {
         for (var i = 0; i < $scope.reviews_to_show.length; i++) 
         {
-          $scope.average_review += $scope.reviews_to_show[i].rating;
+          $scope.average_review += parseInt($scope.reviews_to_show[i].rating);
+          console.log($scope.reviews_to_show[i].rating);
         }
-        $scope.average_review /= parseFloat($scope.reviews_to_show.length);
+        $scope.average_review = ($scope.average_review*1.0/$scope.reviews_to_show.length).toFixed(1);
+        console.log($scope.average_review);
       }
       else
       {
-        $scope.average_review = ":(";
+        $scope.average_review = "N/A";
       }
+      console.log("the rating is ", $scope.average_review);
 
 
 
@@ -342,6 +353,11 @@ angular.module('starter.controllers', ['firebase'])
 })
 
 .controller('Location', function($state, $scope, $ionicLoading, $compile, $rootScope) {
+
+  $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+    $scope.init();
+  });
+
   /**
    * The CenterControl adds a control to the map that recenters the map on
    * the user.
@@ -582,7 +598,7 @@ angular.module('starter.controllers', ['firebase'])
   }
 })
 
-.controller('SearchController', function($scope, $state) {
+.controller('SearchController', function($scope, $state, $rootScope) {
   $scope.init = function()
   {
     console.log("opened search view");
@@ -598,6 +614,14 @@ angular.module('starter.controllers', ['firebase'])
       console.log("The read failed: " + errorObject.code);
     });
   }
+
+  $scope.click = function (id) {
+    //console.log("log");
+    //$window.location.reload(true);
+    $rootScope.place_id = id;
+    $state.go('detail');
+  }
+
 
   $("#searchbar").keyup
   (
@@ -779,6 +803,7 @@ angular.module('starter.controllers', ['firebase'])
         $("#social").addClass("active");
         $("#vet").removeClass("active");
         $("#park").removeClass("active");
+        type_of_place = "RB";
         break;
 
       case 'vet':
@@ -786,6 +811,7 @@ angular.module('starter.controllers', ['firebase'])
         $("#social").removeClass("active");
         $("#vet").addClass("active");
         $("#park").removeClass("active");
+        ype_of_place = "Vet";
         break;
 
       case 'park':
@@ -793,13 +819,13 @@ angular.module('starter.controllers', ['firebase'])
         $("#social").removeClass("active");
         $("#vet").removeClass("active");
         $("#park").addClass("active");
+        ype_of_place = "Park";
         break;
 
       default:
         console.log("unknown");
         break;
     }
-    type_of_place = type;
   }
 
 
