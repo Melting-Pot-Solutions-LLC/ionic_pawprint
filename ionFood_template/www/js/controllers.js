@@ -731,8 +731,10 @@ angular.module('starter.controllers', ['firebase'])
   }
 })
 
-.controller('AddPlaceController', function($scope, $ionicPopup, $state ) {
+.controller('AddPlaceController', function($scope, $ionicPopup, $state, $rootScope, $ionicPopup ) {
   console.log("opened add a place view");
+
+  var type_of_place = "Vet";
 
   $scope.choose_type = function(type)
   {
@@ -763,7 +765,11 @@ angular.module('starter.controllers', ['firebase'])
         console.log("unknown");
         break;
     }
+    type_of_place = type;
   }
+
+
+
 
   $scope.initialize = function() {
     var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
@@ -785,10 +791,25 @@ angular.module('starter.controllers', ['firebase'])
 
 
     var geocoder = new google.maps.Geocoder();
-    document.getElementById('addaplace_button').addEventListener('click', function() 
+
+
+    var delay = (function()
     {
-          geocodeAddress(geocoder, map);
+      var timer = 0;
+      return function(callback, ms){
+      clearTimeout (timer);
+      timer = setTimeout(callback, ms);
+    };
+    })();
+
+    $('#location').keyup(function()
+    {
+      delay(function()
+      {
+        geocodeAddress(geocoder, map);
+      }, 2000 );
     });
+
 
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
@@ -808,7 +829,49 @@ angular.module('starter.controllers', ['firebase'])
     }
     // assign to stop
     $scope.map2 = map;
+
+    
+    myDataRef.once("value", function(snapshot)
+    {
+      console.log("here is the DB" + snapshot.val());
+      $scope.places_in_database = snapshot.val();
+      $scope.number_of_places = snapshot.val().length;
+    }, function (errorObject) 
+    {
+      console.log("The read failed: " + errorObject.code);
+    });
+
+    
+    document.getElementById('addaplace_button').addEventListener('click', function() 
+    {
+      var place_to_push = 
+      {
+        addr: $scope.formatted_address,
+        id: $scope.number_of_places,
+        lat: $scope.lat,
+        lng: $scope.lng,
+        name: $("#name").val(),
+        type: type_of_place
+      };
+
+
+      console.log("pushing new place " , place_to_push);
+      myDataRef.push(place_to_push);
+      $rootScope.place = place_to_push;
+      $ionicPopup.alert({
+          title: 'Thanks!',
+          content: 'You just added one more place for dog owners\n. Let\'s review it! '
+        }).then(function(res) {
+          $state.go('addReview');
+        });
+
+
+    });
+    
   }
+
+  
+
 
   function placeMarker(location, map) 
   {
@@ -833,6 +896,12 @@ angular.module('starter.controllers', ['firebase'])
           map: resultsMap,
           position: results[0].geometry.location
         });
+        $scope.formatted_address = results[0].formatted_address; 
+        //$scope.lat = results[0].geometry.bounds.R.R; 
+        //$scope.lng = results[0].geometry.bounds.J.J;
+        $scope.lat = results[0].geometry.location.lat(); 
+        $scope.lng = results[0].geometry.location.lng();  
+        console.log($scope.lat, $scope.lng );
       } else {
         //alert('Geocode was not successful for the following reason: ' + status);
         $ionicPopup.alert({

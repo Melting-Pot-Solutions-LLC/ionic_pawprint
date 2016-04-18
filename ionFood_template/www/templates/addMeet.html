@@ -1,15 +1,29 @@
-<ion-view view-title="Add a Meet Up" ng-controller="AddMeetController as controller">
+<ion-view view-title="Add a Meetup" ng-init="initialize()">
   <ion-content>
     <div class="padding">
-      <h4>Meet Up Information</h4>
-
-      <input type="text" placeholder="Name of Meet Up" ng-model="controller.name" size="100" required> 
-      <input type="text" placeholder="Place Name" ng-model="controller.location" size="100" required>
-      <input type="text" placeholder="Place Address" ng-model="controller.address" size="100" required> 
-      <input type="date" placeholder="date" ng-model="controller.dateTime" size="100">
-
-      <button class="button button-block button-positive" style="position: fixed; bottom: 20px; width: 95%" ng-click="add()">
-          Submit
+      <h4>Meetup information</h4>
+      <div class="list list-inset">
+        <label class="item item-input">
+          <input type="text" placeholder="Name" id="name">
+        </label>
+        <label class="item item-input">
+          <input type="text" placeholder="Location" id="location">
+        </label>
+        <label class="item item-input">
+          <input type="text" placeholder="How often do you meet" id="location">
+        </label>
+      </div>
+      <h4>Show it on the map</h4>
+      <div id="map2" data-tap-disabled="true" style="height: 200px; width: 100%;"></div>
+      <h4>Type</h4>
+      <div class="button-bar">
+        <!-- <a class="button button-small ">Nearby</a> -->
+        <a id="social" class="button button-small" ng-click="choose_type('social')">Social</a>
+        <a id="vet" class="button button-small active" ng-click="choose_type('vet')">Vet</a>
+        <a id="park" class="button button-small" ng-click="choose_type('park')">Park</a>
+      </div>
+      <button class="button button-block button-positive" ng-click="applyFilter()" id="addaplace_button" style="position: fixed; bottom: 40px; width: 95%">
+        Add a place 
       </button>
     </div>
   </ion-content>
