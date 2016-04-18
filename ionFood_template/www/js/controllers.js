@@ -871,7 +871,7 @@ angular.module('starter.controllers', ['firebase'])
       delay(function()
       {
         geocodeAddress(geocoder, map);
-        geocodeLatLng(geocoder, map)
+
 
       }, 2000 );
     });
@@ -984,38 +984,17 @@ angular.module('starter.controllers', ['firebase'])
     });
   }
 
-  function geocodeLatLng(geocoder, map) 
-  {
-        //var input = document.getElementById('latlng').value;
-        //var latlngStr = input.split(',', 2);
-        var latlng = {lat: $scope.lat, lng: $scope.lng};
-        geocoder.geocode({'location': latlng}, function(results, status) {
-          if (status === google.maps.GeocoderStatus.OK) {
-            if (results[1]) {
-              map.setZoom(11);
-              var marker = new google.maps.Marker({
-                position: latlng,
-                map: map
-              });
-              $("#location").val(results[1].formatted_address);
-              //infowindow.open(map, marker);
-            } else {
-              window.alert('No results found');
-            }
-          } else {
-            window.alert('Geocoder failed due to: ' + status);
-          }
-        });
-      }
+
 
 })
 
 .controller('AddMeetController', function($scope, $state, MeetUps, $rootScope, $ionicPopup){
-  var self=this;
-  self.name = "";
-  self.location = "";
-  self.address = "";
-  self.dateTime = new Date("");
+
+
+  $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+    $scope.initialize();
+  });
+
   $scope.add = function() {
     MeetUps.add(self.name,self.location,self.address,self.dateTime);
     $state.go("meetUp");
@@ -1073,13 +1052,15 @@ angular.module('starter.controllers', ['firebase'])
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     // init map
-    var map = new google.maps.Map(document.getElementById("map9"),
+    var map11 = new google.maps.Map(document.getElementById("map11"),
       mapOptions);
 
-    google.maps.event.addListener(map, 'click', function(event) 
+    google.maps.event.addListener(map11, 'click', function(event) 
     {
       placeMarker(event.latLng, map);
       console.log("opening a marker");
+      //var xmlhttp = new XMLHttpRequest();
+      console.log();
     });
 
 
@@ -1099,7 +1080,7 @@ angular.module('starter.controllers', ['firebase'])
     {
       delay(function()
       {
-        geocodeAddress(geocoder, map);
+        geocodeAddress(geocoder, map11);
       }, 2000 );
     });
 
@@ -1112,19 +1093,19 @@ angular.module('starter.controllers', ['firebase'])
           lng: position.coords.longitude
         };
         myLatlng = pos;
-        map.setCenter(pos);
+        map11.setCenter(pos);
       }, function() {
-        handleLocationError(true, map.getCenter());
+        handleLocationError(true, map11.getCenter());
       });
     } else {
       // Browser doesn't support Geolocation
-      handleLocationError(false, map.getCenter());
+      handleLocationError(false, map11.getCenter());
     }
     // assign to stop
-    $scope.map2 = map;
+    $scope.map11 = map11;
 
     
-    myDataRef_meetups.on("value", function(snapshot)
+    myDataRef_meetups.once("value", function(snapshot)
     {
       console.log("here is the DB" + snapshot.val());
       $scope.places_in_database = snapshot.val();
@@ -1135,9 +1116,15 @@ angular.module('starter.controllers', ['firebase'])
     });
 
     
-    document.getElementById('addaplace_button').addEventListener('click', function() 
+    
+    
+  }
+
+
+
+  document.getElementById('addameetup_button').addEventListener('click', function() 
     {
-      var place_to_push = 
+      var meetup_to_push = 
       {
         addr: $scope.formatted_address,
         id: $scope.number_of_places,
@@ -1148,21 +1135,21 @@ angular.module('starter.controllers', ['firebase'])
       };
 
 
-      console.log("pushing new meet up " , place_to_push);
+      console.log("pushing new place " , meetup_to_push);
 
-      $scope.places_in_database.push(place_to_push);
+      $scope.places_in_database.push(meetup_to_push);
       myDataRef_meetups.set($scope.places_in_database);
-      $rootScope.meet_up = place_to_push;
+      $rootScope.place = meetup_to_push;
       $ionicPopup.alert({
           title: 'Thanks!',
-          content: 'You just added one more dog owners meetup \n.'
+          content: 'Great! You just added one another meetup.'
         }).then(function(res) {
           $state.go('tab.home');
         });
 
 
     });
-  }
+
 })
 
 
