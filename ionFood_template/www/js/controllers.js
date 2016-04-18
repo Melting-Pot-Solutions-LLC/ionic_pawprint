@@ -356,9 +356,9 @@ angular.module('starter.controllers', ['firebase'])
 
 .controller('Location', function($state, $scope, $ionicLoading, $compile, $rootScope) {
 
-  $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-    $scope.init();
-  });
+  //$scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+    //$scope.init();
+  //});
 
   /**
    * The CenterControl adds a control to the map that recenters the map on
