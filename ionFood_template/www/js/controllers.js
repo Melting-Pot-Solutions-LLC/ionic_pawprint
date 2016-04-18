@@ -88,7 +88,15 @@ angular.module('starter.controllers', ['firebase'])
     myDataRef.on("value", function(snapshot)
     {
       //console.log("here is the DB" + snapshot.val());
+      $scope.reviews_to_show = [];
       $rootScope.place = snapshot.val()[$rootScope.place_id];
+      $scope.reviews_to_show = $rootScope.place.reviews;
+      /*
+      for (var i = 0; i < $scope.places_in_database.length; i++) 
+      {
+        $scope.reviews_to_show
+      }
+      */
     }, function (errorObject) 
     {
       console.log("The read failed: " + errorObject.code);
@@ -924,7 +932,8 @@ angular.module('starter.controllers', ['firebase'])
       name: $rootScope.user_name,
       uid: $rootScope.user_id,
       text: $("#text_ratings").val(),
-      rating: $("#range_ratings").val()
+      rating: $("#range_ratings").val(),
+      profile_picture: $rootScope.profile_picture
     }
 
 
