@@ -30,17 +30,24 @@ angular.module('starter.controllers', ['firebase'])
   $scope.login_with_FB = function()
   {
     console.log("...logging in with FB...");
+    
     var authObject = $firebaseAuth(myDataRef_users_facebook);
+    var loggedin_user = {id: "", displayName:"", profileImageURL: null};
 
     authObject.$authWithOAuthPopup('facebook').then(function(authData)
     {
-      console.log(authData);
+      // console.log("data ", authData);
       console.log("...successfully logged in with FB...");
-      myDataRef_users_facebook.push(authData);
-      $rootScope.user_name = authData.facebook.displayName;
-      $rootScope.user_id  = authData.auth.uid;
-      $rootScope.profile_picture = authData.facebook.profileImageURL;
-      console.log("user's name is ", $rootScope.user_name);
+      loggedin_user.id = authData.facebook.id;
+      loggedin_user.displayName = authData.facebook.displayName;
+      loggedin_user.profileImageURL = authData.facebook.profileImageURL;
+      console.log(loggedin_user);
+      myDataRef_users_facebook.push(loggedin_user);
+      $rootScope.loggedin_user = loggedin_user;
+      // $rootScope.user_name = authData.facebook.displayName;
+      // $rootScope.user_id  = authData.auth.uid;
+      // $rootScope.profile_picture = authData.facebook.profileImageURL;
+      // console.log("user's name is ", $rootScope.user_name);
 
       $state.go('tab.home');
 
@@ -49,23 +56,23 @@ angular.module('starter.controllers', ['firebase'])
     })
   }
 
-  $scope.login_with_gmail = function()
-  {
-    console.log("...logging in with GMail...");
-    myDataRef_user_gmail.authWithOAuthPopup("google", function(error, authData) {
-      if (error) {
-        console.log("Error logging in with GMail");
-      } else {
-        console.log("...successfully logged in with GMail...", authData);
-        myDataRef_user_gmail.push(authData);
-        $rootScope.user_name = authData.google.displayName;
-        $rootScope.user_id  = authData.auth.uid;
-        $rootScope.profile_picture = authData.google.profileImageURL;
-        console.log("user's name is ", $rootScope.user_name);
-        $state.go('tab.home');
-      }
-    });
-  }
+  // $scope.login_with_gmail = function()
+  // {
+  //   console.log("...logging in with GMail...");
+  //   myDataRef_user_gmail.authWithOAuthPopup("google", function(error, authData) {
+  //     if (error) {
+  //       console.log("Error logging in with GMail");
+  //     } else {
+  //       console.log("...successfully logged in with GMail...", authData);
+  //       myDataRef_user_gmail.push(authData);
+  //       $rootScope.user_name = authData.google.displayName;
+  //       $rootScope.user_id  = authData.auth.uid;
+  //       $rootScope.profile_picture = authData.google.profileImageURL;
+  //       console.log("user's name is ", $rootScope.user_name);
+  //       $state.go('tab.home');
+  //     }
+  //   });
+  // }
 })
 
 .controller('DetailController', function($scope, $ionicNavBarDelegate, $stateParams, $rootScope, $state) {
@@ -1277,6 +1284,15 @@ angular.module('starter.controllers', ['firebase'])
 
 
 .controller('AccountController', function($scope ) {})
+.controller('RateCtrl', function($scope ) 
+{
+
+
+  
+})
+
+
+
 .controller('AuthController', function($scope ) {});
 
 function handleLocationError(browserHasGeolocation, pos) {
