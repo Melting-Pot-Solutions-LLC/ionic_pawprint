@@ -65,10 +65,10 @@
             <button class="button button-icon button-clear ion-navicon" menu-toggle="left" ng-click="open_menu()">
             </button>
           </ion-nav-buttons>
-          <ion-nav-buttons side="right">
+          <!--<ion-nav-buttons side="right">
             <button class="button icon-right button-clear ion-ios-location" ui-sref="checkIn">
             </button>
-          </ion-nav-buttons>
+          </ion-nav-buttons>-->
           <!--<ion-nav-buttons side="right">
             <button class="button button-icon button-clear ion-android-more-vertical" menu-toggle="right">
             </button>
@@ -82,17 +82,10 @@
       <ion-side-menu side="left" class="dark-bg">
         <ion-content>
 
-          <!--<ion-header-bar class="bar bar-header item-input-inset dark-bg">
-            <label class="item-input-wrapper">
-              <i class="icon ion-ios-search placeholder-icon"></i>
-              <input type="search" placeholder="Search">
-            </label>
-          </ion-header-bar>-->
-
           <div class="text-center">
             <a><!-- ui-sref="account">-->
-              <img class="profile-picture" menu-close="" ng-src="{{profile_picture}}">
-              <h4 class="stable">{{user_name}}</h4>
+              <img class="profile-picture" menu-close="" ng-src="{{loggedin_user.profileImageURL}}">
+              <h4 class="stable">{{loggedin_user.displayName}}</h4>
             </a>
             <div class="list text-left dark-list">
               <div class="item item-icon-left" menu-close="" ng-click="go_home()">

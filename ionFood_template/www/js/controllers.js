@@ -1,7 +1,24 @@
 angular.module('starter.controllers', ['firebase'])
 
-.controller('HomeController', function($scope,$state,$rootScope) {
-  
+.controller('HomeController', function($scope, $state, $rootScope) 
+{
+  var myPix = new Array("/img/dog-bg01.jpg", 
+                        "/img/dog-bg02.jpg",
+                        "/img/dog-bg03.jpg",
+                        "/img/dog-bg04.jpg",
+                        "/img/dog-bg05.jpg",
+                        "/img/dog-bg06.jpg",
+                        "/img/dog-bg07.jpg");
+  var randomNum = Math.floor(Math.random() * myPix.length);
+  $scope.home_image = myPix[randomNum];
+
+  $scope.$on('$ionicView.enter', function()
+  { 
+    randomNum = Math.floor(Math.random() * myPix.length);
+    $scope.home_image = myPix[randomNum];
+    console.log("opened Main View");
+  });
+
 })
 
 .controller('RegCtrl', function($scope, $state, $rootScope) {
@@ -25,7 +42,7 @@ angular.module('starter.controllers', ['firebase'])
   console.log("in the main menu");
 })
 
-.controller('LoginCtrl', function($scope, $firebaseAuth, $state, $rootScope) {
+.controller('LoginCtrl', function($scope, $firebaseAuth, $state, $rootScope, $ionicPopup) {
 
   $scope.login_with_FB = function()
   {
@@ -42,7 +59,10 @@ angular.module('starter.controllers', ['firebase'])
       loggedin_user.displayName = authData.facebook.displayName;
       loggedin_user.profileImageURL = authData.facebook.profileImageURL;
       console.log(loggedin_user);
-      myDataRef_users_facebook.push(loggedin_user);
+      //myDataRef_users_facebook.push(loggedin_user);
+      var hopperRef = myDataRef_users_facebook.child(loggedin_user.displayName);
+      hopperRef.update(loggedin_user);
+
       $rootScope.loggedin_user = loggedin_user;
       // $rootScope.user_name = authData.facebook.displayName;
       // $rootScope.user_id  = authData.auth.uid;
@@ -53,6 +73,18 @@ angular.module('starter.controllers', ['firebase'])
 
     }).catch(function(error) {
       console.log("Error logging in with FB");
+      // An alert dialog
+      var alertPopup = $ionicPopup.alert
+      ({
+        title: 'Facebook login error!',
+        template: 'Please check your username/email and password'
+      });
+
+      alertPopup.then(function(res) {
+        console.log('Thank you for not eating my delicious ice cream cone');
+      });
+
+
     })
   }
 
@@ -1288,8 +1320,9 @@ angular.module('starter.controllers', ['firebase'])
 {
 
 
-  
+
 })
+
 
 
 
