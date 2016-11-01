@@ -1,28 +1,37 @@
 <ion-view view-title="Home">
   <ion-content>
     <!--<a class="item">-->
-      <img class="full-image" src="img/banner.png">
+      <img class="full-image" src="{{home_image}}">
     <!--</a>->-->
-    <div class="list">
+          <div class="list">
       <a class="item item-thumbnail-left" ui-sref="RBLoc">
-        <img ng-src="img/dine.png">
+        <img ng-src="img/bar.png">
         <h2>
           Restaurants and Bars
         </h2>
+        <p style="overflow: initial; white-space: initial;">
+          Need help deciding where to eat? Check out these dog friendly restaurants and bars that welcome dogs at their outdoor tables.
+        </p>
       </a>
 
       <a class="item item-thumbnail-left" ui-sref="meetUp">
-        <img ng-src="img/play.png">
+        <img ng-src="img/meetup.png">
         <h2>
-          Meet Up
+          Meet Ups and Parks
         </h2>
+        <p style="overflow: initial; white-space: initial;">
+          Find out what's happening in Dogs Meetup groups and start meeting up with the ones near you.
+        </p>
       </a>
 
-      <a class="item item-thumbnail-left" ui-sref="VPLoc">
-        <img ng-src="img/connect.png">
+      <a class="item item-thumbnail-left" ui-sref="VPLoc" >
+        <img ng-src="img/park.png">
         <h2>
-          Vets and Parks
+          Vets
         </h2>
+        <p style="overflow: initial; white-space: initial;">
+          Your pet is best served when you and your veterinarian are on the same page. Find local vet experts.
+        </p>
       </a>
     </div>
   </ion-content>

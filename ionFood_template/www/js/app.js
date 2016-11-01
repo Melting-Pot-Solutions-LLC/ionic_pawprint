@@ -170,6 +170,13 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
     url: '/register',
       templateUrl: 'templates/register.html',
       controller: 'RegCtrl'
+  })
+
+  // register screen
+  .state('rate', {
+    url: '/rate',
+      templateUrl: 'templates/rate.html',
+      controller: 'RateCtrl'
   });
 
   // default url state
