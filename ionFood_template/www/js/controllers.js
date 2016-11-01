@@ -115,7 +115,11 @@ angular.module('starter.controllers', ['firebase'])
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
     $scope.initialize();
   });
-  //Get specific place object from database here
+
+
+  $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+    viewData.enableBack = true;
+  });
 
 
 
@@ -632,6 +636,13 @@ angular.module('starter.controllers', ['firebase'])
     console.log("displaying only parks");
   }
 
+
+    // document.getElementById('place_{{place.id}}').addEventListener('click', function() 
+    // {
+    //   $rootScope.place_id = place.id;
+    //   $state.go('detail');
+    // });
+
   $scope.click = function (id) {
     //console.log("log");
     //$window.location.reload(true);
@@ -831,7 +842,7 @@ angular.module('starter.controllers', ['firebase'])
 
 
 
-.controller('AddPlaceController', function($scope, $ionicPopup, $state, $rootScope, $ionicPopup ) {
+.controller('AddPlaceController', function($scope, $state, $rootScope, $ionicPopup ) {
   console.log("opened add a place view");
 
   var type_of_place = "Vet";
@@ -885,16 +896,16 @@ angular.module('starter.controllers', ['firebase'])
     var map = new google.maps.Map(document.getElementById("map2"),
       mapOptions);
 
-    google.maps.event.addListener(map, 'click', function(event) 
-    {
-      placeMarker(event.latLng, map);
-      console.log("opening a marker");
-      //var xmlhttp = new XMLHttpRequest();
-      console.log();
-    });
+    // google.maps.event.addListener(map, 'click', function(event) 
+    // {
+    //   placeMarker(event.latLng, map);
+    //   console.log("opening a marker");
+    //   //var xmlhttp = new XMLHttpRequest();
+    //   console.log();
+    // });
 
 
-    var geocoder = new google.maps.Geocoder();
+    // var geocoder = new google.maps.Geocoder();
 
 
     var delay = (function()
@@ -906,12 +917,15 @@ angular.module('starter.controllers', ['firebase'])
     };
     })();
 
-    $('#location').keyup(function()
-    {
+
+ $scope.$watch('$rootScope.formatted_address3',function(newVal,oldVal){
+    
+      console.log("stopped typing stuff");
       delay(function()
       {
-        geocodeAddress(geocoder, map);
-
+         //geocodeAddress(map);
+        //$rootScope.formatted_address = document.getElementById('location').value;
+        //placeMarker($rootScope.formatted_address, map);
 
       }, 2000 );
     });
@@ -933,6 +947,8 @@ angular.module('starter.controllers', ['firebase'])
       // Browser doesn't support Geolocation
       handleLocationError(false, map.getCenter());
     }
+
+
     // assign to stop
     $scope.map2 = map;
 
@@ -972,10 +988,7 @@ angular.module('starter.controllers', ['firebase'])
         }).then(function(res) {
           $state.go('addReview');
         });
-
-
     });
-    
   }
 
   
@@ -995,8 +1008,9 @@ angular.module('starter.controllers', ['firebase'])
 
   }
 
-  function geocodeAddress(geocoder, resultsMap) 
+  function geocodeAddress(resultsMap) 
   {
+    var geocoder = new google.maps.Geocoder();
     var address = document.getElementById('location').value;
     geocoder.geocode({'address': address}, function(results, status) {
       if (status === google.maps.GeocoderStatus.OK) {
@@ -1023,10 +1037,9 @@ angular.module('starter.controllers', ['firebase'])
       }
     });
   }
-
-
-
 })
+
+
 
 .controller('AddMeetController', function($scope, $state, MeetUps, $rootScope, $ionicPopup){
 

@@ -6,15 +6,18 @@
         <label class="item item-input">
           <input type="text" placeholder="Name" id="name">
         </label>
-        <label class="item item-input">
+        <!--<label class="item item-input">
           <input type="text" placeholder="Location" id="location">
+        </label>-->
+        <label class="item item-input" id="location2" >
+          <ion-google-place placeholder="Enter an address" ng-model="location" id="location" current-location="true" />
         </label>
       </div>
       <h4>Show it on the map</h4>
       <div id="map2" data-tap-disabled="true" style="height: 200px; width: 100%;"></div>
       <h4>Type</h4>
       <div class="button-bar">
-        <!-- <a class="button button-small ">Nearby</a> -->
+        
         <a id="social" class="button button-small" ng-click="choose_type('social')">Social</a>
         <a id="vet" class="button button-small active" ng-click="choose_type('vet')">Vet</a>
         <a id="park" class="button button-small" ng-click="choose_type('park')">Park</a>

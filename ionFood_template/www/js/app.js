@@ -1,6 +1,6 @@
 /* Autor: Duy Thanh Dao */
 
-angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 'starter.services', 'ion-google-place'])
 
 .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {

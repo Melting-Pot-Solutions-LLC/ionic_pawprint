@@ -5,20 +5,17 @@
         <i class="icon ion-ios-search placeholder-icon"></i>
         <input type="search" placeholder="Search" id="searchbar" autofocus>
       </label>
-      <button class="button button-clear">
-        <i class="ion-android-navigate"></i>
-      </button>
     </div>
     <div class="stable-bg padding search-result">
       <div class="pull-left left-block">
         <span class="static-total"></span>
         <span class="static-label">Results</span>
       </div>
-      <a class="btn btn-clear positive pull-right right-block" ui-sref="tab.search_filter">Filters</a>
+      <!--<a class="btn btn-clear positive pull-right right-block" ui-sref="tab.search_filter">Filters</a>-->
     </div>
     <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="place in places_to_show" type="item-text-wrap" ng-click="click({{place.id}})" >
-        <img ng-src="img/{{place.type}}.png">
+        <img ng-src="img/{{place.type}}3.png">
         <h2>{{place.name}}</h2>
         <p>{{place.addr}}</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
