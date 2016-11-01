@@ -31,12 +31,27 @@ angular.module('starter.controllers', ['firebase'])
   {
     console.log("...logging in with FB...");
     var authObject = $firebaseAuth(myDataRef_users_facebook);
+    var loggedin_user = {name: "", id: null, photoURL: null};
 
     authObject.$authWithOAuthPopup('facebook').then(function(authData)
     {
       console.log(authData);
       console.log("...successfully logged in with FB...");
-      myDataRef_users_facebook.push(authData);
+      loggedin_user.name = authData.facebook.displayName;
+      loggedin_user.id = authData.facebook.id;
+      loggedin_user.photoURL = authData.facebook.profileImageURL;
+      
+
+      var name = authData.facebook.displayName;
+      var id = authData.facebook.id;
+      var ph = authData.facebook.profileImageURL;
+
+      var hopperRef = myDataRef_users_facebook.child(name);
+      var us = { name: {name: name, id: id, photoURL: ph}};
+      hopperRef.update(loggedin_user);
+
+      //myDataRef_users_facebook.update(us);
+      //myDataRef_users_facebook.push(authData);
       $rootScope.user_name = authData.facebook.displayName;
       $rootScope.user_id  = authData.auth.uid;
       $rootScope.profile_picture = authData.facebook.profileImageURL;
