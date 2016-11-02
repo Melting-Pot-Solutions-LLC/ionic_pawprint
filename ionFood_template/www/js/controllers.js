@@ -926,16 +926,26 @@ angular.module('starter.controllers', ['firebase'])
     })();
 
 
- $scope.$watch('$rootScope.formatted_address3',function(newVal,oldVal){
+  // this function fires up when the user exits teh modal
+ $scope.$watch(function(){return $rootScope.new_place_location},function(newVal,oldVal){
     
       console.log("stopped typing stuff");
-      delay(function()
+      console.log(newVal);
+      if (newVal != null) 
       {
-         //geocodeAddress(map);
-        //$rootScope.formatted_address = document.getElementById('location').value;
-        //placeMarker($rootScope.formatted_address, map);
+        placeMarker(newVal.geometry.location, $scope.map2, newVal.formatted_address);
+        $scope.formatted_address = newVal.formatted_address;
+        $scope.lat = newVal.geometry.location.lat;
+        $scope.lng = newVal.geometry.location.lng;
+      }
 
-      }, 2000 );
+      // delay(function()
+      // {
+      //    //geocodeAddress(map);
+      //   //$rootScope.formatted_address = document.getElementById('location').value;
+      //   //placeMarker($rootScope.formatted_address, map);
+
+      // }, 2000 );
     });
 
 
@@ -1002,14 +1012,14 @@ angular.module('starter.controllers', ['firebase'])
   
 
 
-  function placeMarker(location, map) 
+  function placeMarker(location, map, formatted_address) 
   {
     var marker = new google.maps.Marker({
       position: location,
       map: map,
     });
     var infowindow = new google.maps.InfoWindow({
-      content: 'Latitude: ' + location.lat() + '<br>Longitude: ' + location.lng()
+      content: formatted_address
     });
     infowindow.open(map,marker);
     console.log("opening a marker");
