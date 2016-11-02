@@ -75,6 +75,7 @@ angular.module('ion-google-place', [])
                                 unbindBackButtonAction = null;
                             }
                             scope.$emit('ionGooglePlaceSetLocation',location);
+                          console.log("selected " + location);
                         };
 
                         scope.setCurrentLocation = function(){
@@ -93,6 +94,7 @@ angular.module('ion-google-place', [])
                                     ngModel.$render();
                                     el.element.css('display', 'none');
                                     $ionicBackdrop.release();
+                                    console.log("selected " + location);
                                     $rootScope.formatted_address3 = location.formatted_address;
                                 })
                                 .catch(function(error){
@@ -116,6 +118,7 @@ angular.module('ion-google-place', [])
                                         $ionicBackdrop.release();
                                     }, 2000);
                                 });
+                          
                         };
 
                         scope.$watch('searchQuery', function(query){
