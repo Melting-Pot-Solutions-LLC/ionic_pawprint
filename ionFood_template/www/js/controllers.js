@@ -495,6 +495,7 @@ angular.module('starter.controllers', ['firebase'])
     // assign to stop
     $scope.map = map;
   }
+  
   // load map when the ui is loaded
   $scope.init = function() 
   {
@@ -652,11 +653,18 @@ angular.module('starter.controllers', ['firebase'])
 })
 
 .controller('SearchController', function($scope, $state, $rootScope) {
+
+
+
+
   $scope.init = function()
   {
     console.log("opened search view");
 
     document.getElementById('searchbar').select();
+
+    
+    
     myDataRef.on("value", function(snapshot)
     {
       console.log("here is the DB" + snapshot.val());
@@ -1231,10 +1239,11 @@ angular.module('starter.controllers', ['firebase'])
   $scope.initialize = function()
   {
 
-    console.log("...opening add a review vew...");
+    console.log("...opening add a review view...");
     console.log("The place is ", $rootScope.place.name);
     $("#range_ratings").val("2.5");
     $scope.range_value = 2.5;
+    $("#text_ratings").val("");
 
 
     var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
@@ -1280,11 +1289,11 @@ angular.module('starter.controllers', ['firebase'])
     
     var review = 
     {
-      name: $rootScope.user_name,
-      uid: $rootScope.user_id,
+      name: $rootScope.loggedin_user.displayName,
+      uid: $rootScope.loggedin_user.id,
       text: $("#text_ratings").val(),
       rating: $("#range_ratings").val(),
-      profile_picture: $rootScope.profile_picture
+      profile_picture: $rootScope.loggedin_user.profileImageURL
     }
 
 
@@ -1294,18 +1303,18 @@ angular.module('starter.controllers', ['firebase'])
     {
       console.log("here is the DB" + snapshot.val());
       places_in_database = snapshot.val();
-      
-      
-
     }, function (errorObject) 
     {
       console.log("The read failed: " + errorObject.code);
     });
 
+    console.log("The # is " + $rootScope.place.id);
+
     if (places_in_database[$rootScope.place.id].reviews == null)
     {
       places_in_database[$rootScope.place.id].reviews = [];
     }
+
     places_in_database[$rootScope.place.id].reviews.push(review);
 
     console.log(places_in_database[$rootScope.place.id]);

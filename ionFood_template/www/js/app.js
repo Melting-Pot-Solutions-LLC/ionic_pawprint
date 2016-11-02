@@ -18,6 +18,7 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
         //StatusBar.styleDefault();
         StatusBar.styleLightContent();
     }
+    
 
   });
 })
@@ -26,6 +27,7 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
 
     $ionicConfigProvider.backButton.previousTitleText(false);
     $ionicConfigProvider.backButton.text('');
+    //$ionicConfigProvider.views.maxCache(0);
 
     // set tabs position on the top
     $ionicConfigProvider.tabs.position('top');
