@@ -75,7 +75,7 @@ angular.module('ion-google-place', [])
                                 unbindBackButtonAction = null;
                             }
                             scope.$emit('ionGooglePlaceSetLocation',location);
-                          // console.dir("selected " + location.formatted_address);
+                           // console.dir("selected " + location.formatted_address);
                           $rootScope.new_place_location = location;
 
                         };

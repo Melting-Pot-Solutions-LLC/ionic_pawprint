@@ -934,9 +934,13 @@ angular.module('starter.controllers', ['firebase'])
       if (newVal != null) 
       {
         placeMarker(newVal.geometry.location, $scope.map2, newVal.formatted_address);
-        $scope.formatted_address = newVal.formatted_address;
-        $scope.lat = newVal.geometry.location.lat;
-        $scope.lng = newVal.geometry.location.lng;
+        $scope.formatted_address = $rootScope.new_place_location.formatted_address;
+        $scope.lat = $rootScope.new_place_location.geometry.location.lat();
+        $scope.lng = $rootScope.new_place_location.geometry.location.lng();
+        // console.log($scope.lat);
+        // console.log($scope.lng);
+        // console.log($rootScope.new_place_location);
+
       }
 
       // delay(function()
@@ -994,18 +998,29 @@ angular.module('starter.controllers', ['firebase'])
         type: type_of_place
       };
 
+      if(place_to_push.name != "")
+      {
+        console.log("pushing new place " , place_to_push);
 
-      console.log("pushing new place " , place_to_push);
-
-      $scope.places_in_database.push(place_to_push);
-      myDataRef.set($scope.places_in_database);
-      $rootScope.place = place_to_push;
-      $ionicPopup.alert({
-          title: 'Thanks!',
-          content: 'You just added one more place for dog owners\n. Let\'s review it! '
-        }).then(function(res) {
-          $state.go('addReview');
-        });
+        $scope.places_in_database.push(place_to_push);
+        myDataRef.set($scope.places_in_database);
+        $rootScope.place = place_to_push;
+        $ionicPopup.alert({
+            title: 'Thanks!',
+            content: 'You just added one more place for dog owners\n. Let\'s review it! '
+          }).then(function(res) {
+            $state.go('addReview');
+          });
+      }
+      else
+      {
+          $ionicPopup.alert({
+            title: 'Error!',
+            content: 'Please make sure to enter correct name and address'
+          }).then(function(res) {
+            
+          });
+      }
     });
   }
 
@@ -1017,9 +1032,11 @@ angular.module('starter.controllers', ['firebase'])
     var marker = new google.maps.Marker({
       position: location,
       map: map,
+
     });
     var infowindow = new google.maps.InfoWindow({
-      content: formatted_address
+      content: formatted_address,
+
     });
     infowindow.open(map,marker);
     console.log("opening a marker");
