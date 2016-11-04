@@ -1,0 +1,8 @@
+{
+  "name": "pawPrint",
+  "app_id": "6ad87fca",
+  "gulpStartupTasks": [
+    "sass",
+    "watch"
+  ]
+}

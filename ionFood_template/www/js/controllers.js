@@ -143,6 +143,7 @@ angular.module('starter.controllers', ['firebase'])
       console.log($scope.reviews_to_show );
 
       $scope.image_to_show = $rootScope.place.image?$rootScope.place.image:"img/jakes.JPG";
+      $scope.display_image = $rootScope.place.image?true:false;
       
 
       $scope.average_review = 0;
