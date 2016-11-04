@@ -1,8 +1,19 @@
 <ion-view view-title="Home">
   <ion-content>
     <!--<a class="item">-->
-      <img class="full-image" src="{{home_image}}">
+    <!--  <img class="full-image" src="{{home_image}}"> -->
     <!--</a>->-->
+
+
+    <ks-swiper-container initial-slide="1" speed="2000" loop="true" show-nav-buttons="false" slides-per-view="1" space-between="5" paginationclickable="true" pagination="swiper-pagination" override-parameters="{effect: 'slide'}" pagination-is-active="true">
+    <ks-swiper-slide class="swiper-slide" ng-repeat="s in [1,2,3,4,5,6]">
+        <img ng-src="img/dog-bg0{{s}}.jpg" width="100%">
+    </ks-swiper-slide>    
+    <ks-swiper-pagination></ks-swiper-pagination>        
+</ks-swiper-container>
+
+
+
           <div class="list">
       <a class="item item-thumbnail-left" ui-sref="RBLoc">
         <img ng-src="img/bar.png">
