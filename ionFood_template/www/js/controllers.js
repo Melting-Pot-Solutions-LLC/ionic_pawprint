@@ -44,6 +44,26 @@ angular.module('starter.controllers', ['firebase'])
 
 .controller('LoginCtrl', function($scope, $firebaseAuth, $state, $rootScope, $ionicPopup) {
 
+  function httpGetAsync(theUrl, callback)
+  {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            callback(xmlHttp.responseText);
+    }
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+    xmlHttp.send(null);
+  }
+
+  function callback (responseText)
+  {
+    console.log(responseText);
+    console.log(typeof(responseText));
+    $rootScope.loggedin_user.profileImageURL = JSON.parse(responseText).data.url;
+    // $rootScope.loggedin_user.profileImageURL = responseText."data"."url";
+  }
+
+
   $scope.login_with_FB = function()
   {
     console.log("...logging in with FB...");
@@ -56,10 +76,21 @@ angular.module('starter.controllers', ['firebase'])
     {
       // console.log("data ", authData);
       console.log("...successfully logged in with FB...");
+      console.log(authData);
+
       loggedin_user.id = authData.facebook.id;
       loggedin_user.displayName = authData.facebook.displayName;
+
+      //find URL to a permanent user profile picture
+      httpGetAsync('http://graph.facebook.com/' + loggedin_user.id + '/picture?type=large&redirect=false', callback);
+      // var xmlHttp = new XMLHttpRequest();
+      // xmlHttp.open( "GET", 'http://graph.facebook.com/' + loggedin_user.id + '/picture?type=large&redirect=false', false ); // false for synchronous request
+      // xmlHttp.send( null );
+      // console.log(xmlHttp.responseText);
+      // loggedin_user.profileImageURL = xmlHttp.responseText.data.url;
+
       loggedin_user.profileImageURL = authData.facebook.profileImageURL;
-      console.log(loggedin_user);
+      
       //myDataRef_users_facebook.push(loggedin_user);
       var hopperRef = myDataRef_users_facebook.child(loggedin_user.displayName);
       hopperRef.update(loggedin_user);
