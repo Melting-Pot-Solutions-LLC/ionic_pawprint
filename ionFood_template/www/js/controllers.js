@@ -685,25 +685,22 @@ angular.module('starter.controllers', ['firebase'])
   }
 
 
-  $("#searchbar").keyup
-  (
-    function()
-    {
-      console.log("keyup");
-      console.log("Text in the search bar is '", this.value, "'");
+  $scope.search = function()
+  {
+    console.log("keyup");
+      console.log("Text in the search bar is '", $("#searchbar").val(), "'");
       $scope.places_to_show = [];
       for (var i = 0; i < $scope.places_in_database.length; i++) 
       {
-        if($scope.places_in_database[i].name.toLowerCase().indexOf(this.value.toLowerCase()) != -1)
+        if($scope.places_in_database[i].name.toLowerCase().indexOf($("#searchbar").val().toLowerCase()) != -1)
         {
           console.log("found");
           $scope.places_to_show.push($scope.places_in_database[i]);
         }
       }
-      $state.go($state.current, {}, {reload: true});
-      
-    }
-  );
+  }
+
+
 })
 
 .controller('SearchFilterController', function($scope, $state, $ionicHistory) {
