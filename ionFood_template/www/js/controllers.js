@@ -1311,51 +1311,66 @@ angular.module('starter.controllers', ['firebase'])
   //console.log($scope.range.value);
   $scope.submit_review = function()
   {
-    console.log("submitting rating " + $("#range_ratings").val());
-    console.log("submitting review text " + $("#text_ratings").val());
-    console.log("pushing a review ot the database");
-    
-    var review = 
+
+    //if a user has some comments
+    if ($("#text_ratings").val() != "")
     {
-      name: $rootScope.loggedin_user.displayName,
-      uid: $rootScope.loggedin_user.id,
-      text: $("#text_ratings").val(),
-      rating: $("#range_ratings").val(),
-      profile_picture: $rootScope.loggedin_user.profileImageURL
+      console.log("submitting rating " + $("#range_ratings").val());
+      console.log("submitting review text " + $("#text_ratings").val());
+      console.log("pushing a review ot the database");
+      
+      var review = 
+      {
+        name: $rootScope.loggedin_user.displayName,
+        uid: $rootScope.loggedin_user.id,
+        text: $("#text_ratings").val(),
+        rating: $("#range_ratings").val(),
+        profile_picture: $rootScope.loggedin_user.profileImageURL
+      }
+
+
+      var places_in_database = [];
+      //console.log(review);
+      myDataRef.on("value", function(snapshot)
+      {
+        console.log("here is the DB" + snapshot.val());
+        places_in_database = snapshot.val();
+      }, function (errorObject) 
+      {
+        console.log("The read failed: " + errorObject.code);
+      });
+
+      console.log("The # is " + $rootScope.place.id);
+
+      if (places_in_database[$rootScope.place.id].reviews == null)
+      {
+        places_in_database[$rootScope.place.id].reviews = [];
+      }
+
+      places_in_database[$rootScope.place.id].reviews.push(review);
+
+      console.log(places_in_database[$rootScope.place.id]);
+      myDataRef.set(places_in_database);
+
+      $ionicPopup.alert({
+        title: 'Thank you!',
+        content: 'Your review is submitted. You will now be redirected back to the map.'
+      }).then(function(res) {
+        console.log('User input wrong location');
+        $state.go('tab.location');
+
+      });
+    }
+    else
+    {
+      $ionicPopup.alert({
+        title: 'Error!',
+        content: 'Please add some text describing you experience'
+      }).then(function(res) 
+      {
+      });
     }
 
-
-    var places_in_database = [];
-    //console.log(review);
-    myDataRef.on("value", function(snapshot)
-    {
-      console.log("here is the DB" + snapshot.val());
-      places_in_database = snapshot.val();
-    }, function (errorObject) 
-    {
-      console.log("The read failed: " + errorObject.code);
-    });
-
-    console.log("The # is " + $rootScope.place.id);
-
-    if (places_in_database[$rootScope.place.id].reviews == null)
-    {
-      places_in_database[$rootScope.place.id].reviews = [];
-    }
-
-    places_in_database[$rootScope.place.id].reviews.push(review);
-
-    console.log(places_in_database[$rootScope.place.id]);
-    myDataRef.set(places_in_database);
-
-    $ionicPopup.alert({
-      title: 'Thank you!',
-      content: 'Your review is submitted. You will now be redirected back to the map.'
-    }).then(function(res) {
-      console.log('User input wrong location');
-      $state.go('tab.location');
-
-    });
 
 
   }
