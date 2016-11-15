@@ -9162,5 +9162,9 @@ a {
 .facebook-login {
   background: #3B5999; }
 
+.continue {
+  background: #f8f8f8;
+  color: #eb474e }
+
 .twitter-login {
   background: #00ACEE; }
