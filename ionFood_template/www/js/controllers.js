@@ -809,8 +809,41 @@ angular.module('starter.controllers', ['firebase'])
           title: $scope.meetUps_to_show[i].name
         });
 
+        marker.setIcon('http://maps.google.com/mapfiles/ms/icons/purple-dot.png');
         $scope.markers.push(marker);
+
+        
+        var content = $scope.meetUps_to_show[i].name;
+        var infowindow = new google.maps.InfoWindow();
+        var prev_infowindow = false; 
+
+
+        google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
+        return function() {
+            if( prev_infowindow )
+            {
+              prev_infowindow.close();
+            }
+            prev_infowindow = infowindow;
+            infowindow.setContent(content);
+            infowindow.open(map9,marker);
+        };
+        })(marker,content,infowindow)); 
+
+
       }
+
+      // google.maps.event.addListener(marker,'click',function(marker) 
+      //   {
+      //     var infowindow = new google.maps.InfoWindow({
+      //     content:"Hello World!"
+      //     });
+      //     infowindow.open(map9,marker);
+      //   });
+
+
+
+
     //added by Steve
     console.log("displaying all meetups");
     }, function (errorObject) 

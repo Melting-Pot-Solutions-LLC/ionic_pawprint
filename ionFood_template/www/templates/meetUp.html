@@ -4,15 +4,16 @@
     <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="meetUp in meetUps_to_show" type="item-text-wrap" ng-click="click({{meetUp.id}})">
         <!--<img ng-src="img/{{place.type}}.png">-->
+        <img ng-src="img/meetups_list.png">
         <h2>{{meetUp.name}}</h2>
         <p>Meet up at {{meetUp.addr}} on {{meetUp.time}}</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
       </ion-item>
     </ion-list>
-    <div class="padding">
+    <!--<div class="padding">
 	    <button class="button button-block button-positive" style="position: fixed; bottom: 20px; width: 95%" ui-sref="addMeet">
 	        Add Meet Up 
 	    </button>
-    </div>
+    </div>-->
   </ion-content>
 </ion-view>
