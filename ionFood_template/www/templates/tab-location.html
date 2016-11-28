@@ -1,7 +1,7 @@
 <ion-view view-title="Map" ng-init="init()">
   <ion-content>
     <div id="map" data-tap-disabled="true"></div>
-    <div style="width:100%">
+    <!--<div style="width:100%">
       <button class="button button-dark" ng-click="displayAll()" style="width:17%; min-height: 35px; height: 38px; font-size: 13px;">
         All
       </button>
@@ -14,7 +14,17 @@
       <button class="button button-dark" ng-click="displayParks()"  style="width:30%; min-height: 35px; height: 38px; font-size: 13px;">
         Parks
       </button>
+    </div>-->
+
+    <div class="button-bar">
+    <a class="button button-dark" ng-click="displayAll()">All</a>
+    <a class="button button-dark" ng-click="displayRB()">Bars</a>
+    <a class="button button-dark" ng-click="displayVets()">Vets</a>
+    <a class="button button-dark" ng-click="displayParks()">Parks</a>
     </div>
+
+
+
     <ion-list>
 
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="place in places_to_show" type="item-text-wrap" ng-click="click({{place.id}})" id="place_{{place.id}}">
