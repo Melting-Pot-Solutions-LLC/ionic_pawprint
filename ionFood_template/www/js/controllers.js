@@ -120,130 +120,6 @@ angular.module('starter.controllers', ['firebase'])
     })
   }
 
-  // $scope.login_with_gmail = function()
-  // {
-  //   console.log("...logging in with GMail...");
-  //   myDataRef_user_gmail.authWithOAuthPopup("google", function(error, authData) {
-  //     if (error) {
-  //       console.log("Error logging in with GMail");
-  //     } else {
-  //       console.log("...successfully logged in with GMail...", authData);
-  //       myDataRef_user_gmail.push(authData);
-  //       $rootScope.user_name = authData.google.displayName;
-  //       $rootScope.user_id  = authData.auth.uid;
-  //       $rootScope.profile_picture = authData.google.profileImageURL;
-  //       console.log("user's name is ", $rootScope.user_name);
-  //       $state.go('tab.home');
-  //     }
-  //   });
-  // }
-
-
-
-
-
-
-  //-- NATIVE LOGIN
-    // This is the success callback from the login method
-  var fbLoginSuccess = function(response) {
-    if (!response.authResponse){
-      fbLoginError("Cannot find the authResponse");
-      return;
-    }
-
-    var authResponse = response.authResponse;
-
-    getFacebookProfileInfo(authResponse)
-    .then(function(profileInfo) {
-      // For the purpose of this example I will store user data on local storage
-    //   UserService.setUser({
-    //     authResponse: authResponse,
-	// 			userID: profileInfo.id,
-	// 			name: profileInfo.name,
-	// 			email: profileInfo.email,
-    //     picture : "http://graph.facebook.com/" + authResponse.userID + "/picture?type=large"
-    //   });
-      $ionicLoading.hide();
-      $state.go('app.home');
-    }, function(fail){
-      // Fail get profile info
-      console.log('profile info fail', fail);
-    });
-  };
-
-  // This is the fail callback from the login method
-  var fbLoginError = function(error){
-    console.log('fbLoginError', error);
-    $ionicLoading.hide();
-  };
-
-  // This method is to get the user profile info from the facebook api
-  var getFacebookProfileInfo = function (authResponse) {
-    var info = $q.defer();
-
-    facebookConnectPlugin.api('/me?fields=email,name&access_token=' + authResponse.accessToken, null,
-      function (response) {
-				console.log(response);
-        info.resolve(response);
-      },
-      function (response) {
-				console.log(response);
-        info.reject(response);
-      }
-    );
-    return info.promise;
-  };
-
-  //This method is executed when the user press the "Login with facebook" button
-  $scope.facebookSignIn = function() {
-    facebookConnectPlugin.getLoginStatus(function(success){
-      if(success.status === 'connected'){
-        // The user is logged in and has authenticated your app, and response.authResponse supplies
-        // the user's ID, a valid access token, a signed request, and the time the access token
-        // and signed request each expire
-        console.log('getLoginStatus', success.status);
-
-
-    		if(!user.userID){
-					getFacebookProfileInfo(success.authResponse)
-					.then(function(profileInfo) {
-						// For the purpose of this example I will store user data on local storage
-						// UserService.setUser({
-						// 	authResponse: success.authResponse,
-						// 	userID: profileInfo.id,
-						// 	name: profileInfo.name,
-						// 	email: profileInfo.email,
-						// 	picture : "http://graph.facebook.com/" + success.authResponse.userID + "/picture?type=large"
-						// });
-
-						//$state.go('app.home');
-					}, function(fail){
-						// Fail get profile info
-						console.log('profile info fail', fail);
-					});
-				}else{
-					$state.go('app.home');
-                    console.log("successfully logged in!");
-				}
-      } else {
-        // If (success.status === 'not_authorized') the user is logged in to Facebook,
-				// but has not authenticated your app
-        // Else the person is not logged into Facebook,
-				// so we're not sure if they are logged into this app or not.
-
-				console.log('getLoginStatus', success.status);
-
-				$ionicLoading.show({
-          template: 'Logging in...'
-        });
-
-				// Ask the permissions you need. You can learn more about
-				// FB permissions here: https://developers.facebook.com/docs/facebook-login/permissions/v2.4
-        facebookConnectPlugin.login(['email', 'public_profile'], fbLoginSuccess, fbLoginError);
-      }
-    });
-  };
-  //--
 })
 
 .controller('DetailController', function($scope, $ionicNavBarDelegate, $stateParams, $rootScope, $state) {
@@ -387,6 +263,7 @@ angular.module('starter.controllers', ['firebase'])
     initialize();
     myDataRef.on("value", function(snapshot)
     {
+
       console.log("here is the DB" + snapshot.val());
       $scope.places_in_database = snapshot.val();
       $scope.places_to_show = [];
@@ -643,22 +520,9 @@ angular.module('starter.controllers', ['firebase'])
     var map = new google.maps.Map(document.getElementById("map"),
       mapOptions);
 
-    // Try HTML5 geolocation.
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        var pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        myLatlng = pos;
-        map.setCenter(pos);
-      }, function() {
-        handleLocationError(true, map.getCenter());
-      });
-    } else {
-      // Browser doesn't support Geolocation
-      handleLocationError(false, map.getCenter());
-    }
+    // // Try HTML5 geolocation.
+    map.setCenter(myLatlng);
+
     // Create the DIV to hold the control and call the CenterControl()
     // constructor passing in this DIV.
     var centerControlDiv = document.createElement('div');
@@ -675,13 +539,18 @@ angular.module('starter.controllers', ['firebase'])
   $scope.init = function() 
   {
     initialize();
-    myDataRef.on("value", function(snapshot)
+    myDataRef.once("value", function(snapshot)
     {
+
+      $ionicLoading.show({
+        template: 'Loading...',
+        });
       //console.log("here is the DB" + snapshot.val());
       $scope.places_in_database = snapshot.val();
       $scope.places_to_show = [];
       $scope.markers = [];
       $scope.displayAll();
+      $ionicLoading.hide().then(function(){console.log("The loading indicator is now hidden");});
     }, function (errorObject) 
     {
       console.log("The read failed: " + errorObject.code);
