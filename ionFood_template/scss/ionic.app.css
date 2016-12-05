@@ -8933,6 +8933,7 @@ a {
 .profile-picture {
   border-radius: 50%;
   width: 100px;
+  height: 100px;
   margin: 30px auto 0; }
 
 .dark-list .item {
