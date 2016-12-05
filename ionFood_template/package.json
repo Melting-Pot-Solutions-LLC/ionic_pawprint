@@ -22,7 +22,11 @@
     "cordova-plugin-geolocation",
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
-    "ionic-plugin-keyboard"
+    "ionic-plugin-keyboard",
+    "cordova-plugin-inappbrowser",
+    "cordova-plugin-console@~1.0.4",
+    "cordova-plugin-inappbrowser@~1.5.0",
+    "cordova-plugin-geolocation@~2.4.0"
   ],
   "cordovaPlatforms": [
     "ios",
