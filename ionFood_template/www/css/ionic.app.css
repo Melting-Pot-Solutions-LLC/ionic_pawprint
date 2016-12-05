@@ -9139,8 +9139,11 @@ a {
 
 .profile-picture {
   border-radius: 50%;
-  width: 100px;
-  margin: 30px auto 0; }
+  width: 50%;
+  margin: 30px auto 0;
+  padding: 25% 0;
+  background-size: cover;
+  background-position: center; }
 
 .dark-list .item {
   background: #444;

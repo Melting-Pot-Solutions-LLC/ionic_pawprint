@@ -10,7 +10,7 @@
     <!-- compiled css output -->
     <link href="css/ionic.app.css" rel="stylesheet">
     <link href="ion-google-place.css" rel="stylesheet">
-    
+
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
@@ -50,11 +50,11 @@
   <!-- include cloudflare-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angularFire/1.2.0/angularfire.min.js"></script>
 
-<link href="lib/swiper/dist/css/swiper.min.css" rel="stylesheet"/>    
+<link href="lib/swiper/dist/css/swiper.min.css" rel="stylesheet"/>
 <script src="lib/swiper/dist/js/swiper.js"></script>
-<script src="lib/angular-swiper/dist/angular-swiper.js"></script>  
- 
- 
+<script src="lib/angular-swiper/dist/angular-swiper.js"></script>
+
+
 
 
 
@@ -94,7 +94,8 @@
 
           <div class="text-center">
             <a><!-- ui-sref="account">-->
-              <img class="profile-picture" menu-close="" ng-src="{{loggedin_user.profileImageURL}}">
+              <!-- <img class="profile-picture" menu-close="" ng-src="{{loggedin_user.profileImageURL}}"> -->
+              <div class="profile-picture" ng-style="{'background-image': 'url(' + loggedin_user.profileImageURL + ')'}"></div>
               <h4 class="stable">{{loggedin_user.displayName}}</h4>
             </a>
             <div class="list text-left dark-list">
