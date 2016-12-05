@@ -456,6 +456,70 @@ angular.module('starter.controllers', ['firebase'])
     //$scope.init();
   //});
 
+
+var sort_by;
+
+(function() {
+    // utility functions
+    var default_cmp = function(a, b) {
+            if (a == b) return 0;
+            return a < b ? -1 : 1;
+        },
+        getCmpFunc = function(primer, reverse) {
+            var dfc = default_cmp, // closer in scope
+                cmp = default_cmp;
+            if (primer) {
+                cmp = function(a, b) {
+                    return dfc(primer(a), primer(b));
+                };
+            }
+            if (reverse) {
+                return function(a, b) {
+                    return -1 * cmp(a, b);
+                };
+            }
+            return cmp;
+        };
+
+    // actual implementation
+    sort_by = function() {
+        var fields = [],
+            n_fields = arguments.length,
+            field, name, reverse, cmp;
+
+        // preprocess sorting options
+        for (var i = 0; i < n_fields; i++) {
+            field = arguments[i];
+            if (typeof field === 'string') {
+                name = field;
+                cmp = default_cmp;
+            }
+            else {
+                name = field.name;
+                cmp = getCmpFunc(field.primer, field.reverse);
+            }
+            fields.push({
+                name: name,
+                cmp: cmp
+            });
+        }
+
+        // final comparison function
+        return function(A, B) {
+            var a, b, name, result;
+            for (var i = 0; i < n_fields; i++) {
+                result = 0;
+                field = fields[i];
+                name = field.name;
+
+                result = field.cmp(A[name], B[name]);
+                if (result !== 0) break;
+            }
+            return result;
+        }
+    }
+}());
+
   /**
    * The CenterControl adds a control to the map that recenters the map on
    * the user.
@@ -545,12 +609,16 @@ angular.module('starter.controllers', ['firebase'])
       $ionicLoading.show({
         template: 'Loading...',
         });
-      //console.log("here is the DB" + snapshot.val());
+      console.log("here is the DB " + snapshot.val());
+      
       $scope.places_in_database = snapshot.val();
+      console.log("the type is " + typeof($scope.places_in_database));
+
+      $scope.places_in_database.sort(sort_by('type', 'name'));
       $scope.places_to_show = [];
       $scope.markers = [];
       $scope.displayAll();
-      $ionicLoading.hide().then(function(){console.log("The loading indicator is now hidden");});
+      $ionicLoading.hide();
     }, function (errorObject) 
     {
       console.log("The read failed: " + errorObject.code);
@@ -835,7 +903,7 @@ angular.module('starter.controllers', ['firebase'])
   }
 })
 
-.controller('MeetUpController', function($scope, $state, $rootScope) {
+.controller('MeetUpController', function($scope, $state, $rootScope, $ionicLoading) {
 
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
     $scope.initialize();
@@ -885,7 +953,9 @@ angular.module('starter.controllers', ['firebase'])
 
     myDataRef_meetups.on("value", function(snapshot)
     {
-      console.log("here is the DB" + snapshot.val());
+      $ionicLoading.show({
+        template: 'Loading...',
+        });
       $scope.meetUps_to_show = snapshot.val();
       
       for (var i = 0; i < $scope.meetUps_to_show.length; i++) 
@@ -918,19 +988,8 @@ angular.module('starter.controllers', ['firebase'])
         };
         })(marker,content,infowindow)); 
 
-
+        $ionicLoading.hide();
       }
-
-      // google.maps.event.addListener(marker,'click',function(marker) 
-      //   {
-      //     var infowindow = new google.maps.InfoWindow({
-      //     content:"Hello World!"
-      //     });
-      //     infowindow.open(map9,marker);
-      //   });
-
-
-
 
     //added by Steve
     console.log("displaying all meetups");
